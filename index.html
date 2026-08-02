@@ -1,37 +1,15 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต (PPT Net Care)</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Font: Sarabun & Kanit -->
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Google Identity Services SDK -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <style>
-    body { font-family: 'Sarabun', sans-serif; }
-    h1, h2, h3, .font-heading { font-family: 'Kanit', sans-serif; }
-  </style>
-</head>
-<body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
-
-  <!-- STEP 1: หน้าแรกสุด -->
+<!-- STEP 1: หน้าแรกสุด -->
   <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-6 max-w-md w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative flex flex-col items-center">
       
-      <!-- โลโก้หลักตราโรงเรียน (เปลี่ยนเป็นรูป logo.png หรือไอคอนวงกลม) -->
+      <!-- โลโก้หลักตราโรงเรียน/PPT Net Care -->
       <div class="relative">
         <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-purple-400 rounded-full blur opacity-50"></div>
-        
-        <!-- กรณีมีรูปตราโรงเรียนไฟล์ logo.png สามารถแก้ src="logo.png" ได้เลยครับ -->
-        <div class="relative w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-amber-400 shadow-2xl bg-amber-400 flex items-center justify-center overflow-hidden p-2">
-          <!-- รูปตราโรงเรียน (ถ้ามีไฟล์รูปตราโรงเรียนแยก ให้เปลี่ยน src ตรงนี้) -->
-          <img src="logo.png" 
-               onerror="this.onerror=null; this.src='https://api.iconify.design/heroicons:wifi-20-solid.svg?color=%23581c87';" 
+        <div class="relative w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-amber-400 shadow-2xl bg-white flex items-center justify-center overflow-hidden">
+          <!-- ใส่ชื่อไฟล์จาก GitHub ตรงนี้ -->
+          <img src="48cf0922de551a86d785a0c933e62db7~tplv-tiktokx-cropcenter_1080_1080.jpeg" 
                alt="PPT Net Care Logo" 
-               class="w-full h-full object-contain">
+               class="w-full h-full object-cover">
         </div>
       </div>
 
