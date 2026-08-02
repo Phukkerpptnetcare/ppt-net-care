@@ -28,10 +28,10 @@
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
   <!-- ========================================================================= -->
-  <!-- 1. LANDING PAGE / INTRO SCREEN (หน้ากดเข้าสู่เว็บไซต์)                    -->
+  <!-- 1. LANDING PAGE / INTRO SCREEN (หน้าต้อนรับ + ปุ่มรูปภาพจริง)              -->
   <!-- ========================================================================= -->
   <div id="landingScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
-    <div class="text-center space-y-6 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl">
+    <div class="text-center space-y-8 max-w-xl w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl">
       
       <!-- ตราโรงเรียนพรตพิทยพยัต -->
       <div class="flex justify-center">
@@ -51,21 +51,13 @@
         <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
       </div>
 
-      <!-- ปุ่มเข้าสู่เว็บไซต์ (สไตล์เหลือง-ม่วง ตามตัวอย่าง) -->
+      <!-- ================= ปุ่มกดเข้าสู่เว็บไซต์ (ใช้ไฟล์รูปภาพจาก GitHub) ================= -->
       <div class="pt-4 flex justify-center">
-        <button onclick="enterWebsite()" class="group relative inline-flex items-center justify-center overflow-hidden rounded-2xl p-0.5 font-medium shadow-2xl transition duration-300 hover:scale-105 active:scale-95">
-          <span class="absolute inset-0 bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500"></span>
-          <div class="relative flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-900 px-8 py-3.5 rounded-[14px] transition duration-300">
-            <!-- โลโก้ขนาดเล็กติดบนปุ่ม -->
-            <div class="w-10 h-10 bg-purple-700 rounded-full p-1 flex items-center justify-center shadow-md">
-              <span class="text-amber-300 font-bold text-xs">พ.ย.</span>
-            </div>
-            <div class="text-left">
-              <div class="text-xl font-bold text-purple-900 leading-tight">เข้าสู่เว็บไซต์</div>
-              <div class="text-xs font-semibold text-amber-600 uppercase tracking-wider">Enter website</div>
-            </div>
-            <span class="text-purple-700 text-xl font-bold group-hover:translate-x-1 transition">➔</span>
-          </div>
+        <button onclick="enterWebsite()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
+          <!-- เปลี่ยน enter-btn.png เป็นชื่อไฟล์รูปภาพที่คุณอัปโหลดไว้ใน GitHub -->
+          <img src="enter-btn.png" 
+               alt="เข้าสู่เว็บไซต์ Enter website" 
+               class="max-w-xs md:max-w-md h-auto drop-shadow-2xl group-hover:brightness-110 transition">
         </button>
       </div>
 
