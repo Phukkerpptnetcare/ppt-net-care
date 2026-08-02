@@ -1,120 +1,491 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPT Net Care - Login</title>
-    
-    <!-- โหลด Google Identity Services SDK -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-card {
-            background: #ffffff;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        .login-card h2 {
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-        .login-card p {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-        .user-info {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: #eef7ee;
-            border-radius: 8px;
-            display: none;
-        }
-        .user-info img {
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
-            margin-bottom: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต (PPT Net Care)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font: Sarabun & Kanit -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body { font-family: 'Sarabun', sans-serif; }
+    h1, h2, h3, .font-heading { font-family: 'Kanit', sans-serif; }
+  </style>
 </head>
-<body>
+<body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <div class="login-card">
-        <h2>PPT Net Care</h2>
-        <p>กรุณาล็อกอินด้วยบัญชี Google เพื่อเข้าใช้งานระบบ</p>
+  <!-- STEP 1: หน้าแรกสุด -->
+  <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
+    <div class="text-center space-y-8 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative">
+      
+      <div class="space-y-2 pt-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-amber-300 drop-shadow-md font-heading">PPT Net Care</h1>
+        <p class="text-base text-purple-100 font-medium">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต</p>
+        <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
+      </div>
 
-        <!-- 1. ตั้งค่า Google Sign-In -->
+      <div class="pt-4 flex justify-center">
+        <button onclick="goToLoginPage()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
+          <img src="10105750_1_20260205-172819.png" 
+               alt="เข้าสู่เว็บไซต์ Enter website" 
+               class="max-w-xs md:max-w-md h-auto drop-shadow-2xl group-hover:brightness-110 transition">
+        </button>
+      </div>
+
+      <div class="pt-2 pb-2">
+        <button onclick="openAdminLogin()" class="text-xs text-amber-300/60 hover:text-amber-300 underline transition">
+          🔑 ผู้ดูแลระบบ (IT Admin)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- STEP 2: หน้าล็อกอิน GMAIL -->
+  <div id="step2Page" class="hidden fixed inset-0 z-40 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
+    <div class="text-center space-y-6 max-w-md w-full bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-400">
+      
+      <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto shadow-inner border border-slate-200">
+        <svg class="w-8 h-8" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-bold text-purple-950 font-heading">เข้าสู่ระบบด้วย Gmail</h2>
+        <p class="text-xs text-slate-500 mt-1">กรุณายืนยันตัวตนด้วยบัญชี Google ก่อนส่งข้อมูลแจ้งปัญหา</p>
+      </div>
+
+      <!-- ใส่ Client ID ของคุณลงไปตรงนี้เรียบร้อยแล้ว -->
+      <div class="flex justify-center my-4">
         <div id="g_id_onload"
-             data-client_id="ใส่_CLIENT_ID_ของคุณที่นี่.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse">
+             data-client_id="711516435096-59lnvo86c57t6a5ivh7p7djib8crbvo7.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
         </div>
-
-        <!-- 2. ปุ่ม Google Sign-In -->
-        <div class="g_id_signin" 
+        <div class="g_id_signin"
              data-type="standard"
              data-size="large"
              data-theme="outline"
              data-text="sign_in_with"
-             data-shape="rectangular"
+             data-shape="pill"
              data-logo_alignment="left">
         </div>
+      </div>
 
-        <!-- 3. ส่วนแสดงข้อมูลผู้ใช้หลังจากล็อกอินสำเร็จ -->
-        <div id="userInfo" class="user-info">
-            <img id="userPicture" src="" alt="Profile Picture">
-            <h3 id="userName" style="margin: 5px 0;"></h3>
-            <p id="userEmail" style="margin: 0; font-size: 0.85rem; color: #555;"></p>
-        </div>
+      <button onclick="mockGoogleLogin()" class="w-full bg-purple-900 hover:bg-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 text-sm border border-amber-400">
+        🚀 เข้าใช้งานระบบทันที (โหมดทดสอบ)
+      </button>
+
+      <button onclick="backToStep1()" class="text-xs text-slate-400 hover:text-slate-600 underline block mx-auto pt-2">
+        ← ย้อนกลับหน้าแรก
+      </button>
+
     </div>
+  </div>
 
-    <script>
-        // ฟังก์ชัน Decode อ่านข้อมูลจาก JWT Token ที่ Google ส่งกลับมา
-        function parseJwt (token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
 
-            return JSON.parse(jsonPayload);
+  <!-- STEP 3: MAIN WEBSITE -->
+  <div id="mainWebsite" class="hidden min-h-screen bg-slate-100 flex flex-col justify-between">
+    
+    <header class="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-950 text-white shadow-xl border-b-4 border-amber-400">
+      <div class="max-w-6xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-amber-400 rounded-full p-1 flex items-center justify-center shadow-md border-2 border-white">
+            <span class="text-purple-900 font-bold text-lg font-heading">พ.ย.</span>
+          </div>
+          <div>
+            <h1 class="text-xl md:text-2xl font-bold text-amber-300 leading-tight font-heading">PPT Net Care</h1>
+            <p class="text-xs text-purple-200">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต</p>
+          </div>
+        </div>
+
+        <div id="userProfileWidget" class="flex items-center gap-3 bg-purple-950/80 px-4 py-2 rounded-2xl border border-amber-400/30">
+          <img id="userAvatar" src="https://via.placeholder.com/40" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-amber-400 object-cover">
+          <div class="text-left text-xs">
+            <p id="userNameDisplay" class="font-bold text-amber-300">บุคคลทั่วไป</p>
+            <p id="userEmailDisplay" class="text-purple-200 text-[10px]">ไม่ได้เข้าสู่ระบบ</p>
+          </div>
+          <button id="logoutBtn" onclick="handleLogout()" class="ml-2 text-[10px] bg-red-500/80 hover:bg-red-600 text-white px-2.5 py-1 rounded-lg transition">
+            ออก
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <main class="max-w-5xl w-full mx-auto p-4 my-6 flex-grow">
+      <section class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
+        <div class="border-b border-slate-200 pb-4 mb-6">
+          <h2 class="text-xl font-bold text-purple-900 flex items-center gap-2 font-heading">
+            <span class="bg-amber-400 text-purple-900 p-2 rounded-xl text-lg">📝</span>
+            แบบฟอร์มแจ้งปัญหาเครือข่ายและอินเทอร์เน็ต
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">กรอกข้อมูลให้ครบถ้วนเพื่อให้ทีมงาน IT เข้าดำเนินการแก้ไขได้รวดเร็ว</p>
+        </div>
+
+        <form id="reportForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">ชื่อ-นามสกุล ผู้แจ้ง <span class="text-red-500">*</span></label>
+            <input type="text" id="reporterName" required placeholder="เช่น นายสมชาย ใจดี" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">สถานะผู้ใช้งาน <span class="text-red-500">*</span></label>
+              <select id="reporterRole" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+                <option>นักเรียน</option>
+                <option>ครู / บุคลากร</option>
+                <option>เจ้าหน้าที่ / อื่นๆ</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">สถานที่พบปัญหา <span class="text-red-500">*</span></label>
+              <input type="text" id="location" required placeholder="เช่น อาคาร 6 ชั้น 4" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">ประเภทปัญหา <span class="text-red-500">*</span></label>
+            <select id="issueType" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+              <option>อินเทอร์เน็ตช้า / สัญญาณไม่เสถียร</option>
+              <option>เชื่อมต่อ Wi-Fi ไม่ได้</option>
+              <option>สาย LAN ชำรุด / ไม่มีสัญญาณ LAN</option>
+              <option>เข้าเว็บบางเว็บไซต์ไม่ได้</option>
+              <option>อื่นๆ</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">รายละเอียดปัญหาเพิ่มเติม</label>
+            <textarea id="issueDetail" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 border border-amber-400/40 text-lg font-heading">
+            ส่งข้อมูลแจ้งปัญหา
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="bg-purple-950 text-purple-300 text-center py-4 text-xs border-t border-amber-400/20">
+      © 2026 PPT Net Care - โรงเรียนพรตพิทยพยัต Protpittayapayat School
+    </footer>
+  </div>
+
+
+  <!-- STEP 4: SUCCESS PAGE -->
+  <div id="successPage" class="hidden fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
+    <div class="text-center space-y-6 max-w-lg w-full bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-400 animate-fade-in">
+      
+      <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto shadow-inner border-2 border-emerald-400">
+        <svg class="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-2xl md:text-3xl font-bold text-purple-950 font-heading">บันทึกข้อมูลเรียบร้อยแล้ว!</h2>
+        <p class="text-xs md:text-sm text-slate-600">ขอบคุณสำหรับการแจ้งปัญหา ทีมงาน IT โรงเรียนพรตพิทยพยัต จะรีบเข้าดำเนินการตรวจสอบโดยเร็วที่สุด</p>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left text-xs space-y-2 text-slate-700">
+        <div class="flex justify-between border-b border-slate-200 pb-1.5">
+          <span class="font-semibold text-purple-900">ผู้แจ้ง:</span>
+          <span id="succName" class="font-medium">-</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200 pb-1.5">
+          <span class="font-semibold text-purple-900">สถานที่:</span>
+          <span id="succLocation" class="font-medium">-</span>
+        </div>
+        <div class="flex justify-between border-b border-slate-200 pb-1.5">
+          <span class="font-semibold text-purple-900">ปัญหาที่แจ้ง:</span>
+          <span id="succType" class="font-medium">-</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-semibold text-purple-900">เวลาที่บันทึก:</span>
+          <span id="succTime" class="font-medium text-slate-500">-</span>
+        </div>
+      </div>
+
+      <div class="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+        <button onclick="goBackToForm()" class="bg-purple-900 hover:bg-purple-950 text-amber-300 font-bold py-3 px-6 rounded-xl shadow-lg transition text-sm border border-amber-400">
+          📝 แจ้งปัญหาเพิ่มเติม
+        </button>
+        <button onclick="backToStep1FromSuccess()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 px-6 rounded-xl transition text-sm">
+          🏠 กลับหน้าแรก
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="adminPanel" class="hidden min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between">
+    <header class="bg-purple-950 text-white p-4 shadow-xl border-b border-amber-400/30 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <span class="bg-amber-400 text-purple-950 font-bold px-3 py-1 rounded-xl text-sm font-heading">IT ADMIN</span>
+        <div>
+          <h1 class="text-lg font-bold text-amber-300 font-heading">ระบบจัดการผู้ดูแลระบบ (PPT Net Care Dashboard)</h1>
+          <p class="text-xs text-purple-200">ตรวจสอบและอัปเดตสถานะการแจ้งปัญหาอินเทอร์เน็ต</p>
+        </div>
+      </div>
+      <button onclick="exitAdmin()" class="bg-red-600/80 hover:bg-red-600 text-white text-xs px-4 py-2 rounded-xl transition">
+        ออกจากระบบ Admin
+      </button>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto p-4 md:p-6 flex-grow">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-slate-800 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
+          <p class="text-xs text-slate-400">รายการแจ้งปัญหาทั้งหมด</p>
+          <p id="statTotal" class="text-3xl font-bold text-amber-300 mt-1">0</p>
+        </div>
+        <div class="bg-slate-800 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
+          <p class="text-xs text-slate-400">อยู่ระหว่างดำเนินการ</p>
+          <p id="statPending" class="text-3xl font-bold text-amber-400 mt-1">0</p>
+        </div>
+        <div class="bg-slate-800 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
+          <p class="text-xs text-slate-400">แก้ไขเสร็จสิ้นแล้ว</p>
+          <p id="statCompleted" class="text-3xl font-bold text-emerald-400 mt-1">0</p>
+        </div>
+      </div>
+
+      <div class="bg-slate-800 rounded-3xl border border-purple-500/20 shadow-2xl overflow-hidden">
+        <div class="p-4 border-b border-slate-700 flex justify-between items-center">
+          <h2 class="text-lg font-bold text-amber-300 flex items-center gap-2 font-heading">📊 รายการแจ้งปัญหาจากผู้ใช้งาน</h2>
+          <button onclick="clearAllReports()" class="text-xs bg-red-900/40 text-red-300 hover:bg-red-800/60 px-3 py-1.5 rounded-lg transition border border-red-500/30">ล้างข้อมูลทั้งหมด</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs md:text-sm">
+            <thead class="bg-purple-950/60 text-amber-300 uppercase font-heading">
+              <tr>
+                <th class="p-3.5">วันที่-เวลา</th>
+                <th class="p-3.5">ผู้แจ้ง (สถานะ)</th>
+                <th class="p-3.5">สถานที่</th>
+                <th class="p-3.5">ประเภทปัญหา / รายละเอียด</th>
+                <th class="p-3.5 text-center">สถานะ</th>
+                <th class="p-3.5 text-center">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="adminReportTable" class="divide-y divide-slate-700/60"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 text-center py-3 text-xs">
+      PPT Net Care Admin System - โรงเรียนพรตพิทยพยัต
+    </footer>
+  </div>
+
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    let currentUser = null;
+
+    function goToLoginPage() {
+      document.getElementById('step1Page').classList.add('hidden');
+      document.getElementById('step2Page').classList.remove('hidden');
+    }
+
+    function backToStep1() {
+      document.getElementById('step2Page').classList.add('hidden');
+      document.getElementById('step1Page').classList.remove('hidden');
+    }
+
+    function handleCredentialResponse(response) {
+      const responsePayload = parseJwt(response.credential);
+      
+      currentUser = {
+        name: responsePayload.name,
+        email: responsePayload.email,
+        picture: responsePayload.picture
+      };
+
+      loginSuccess();
+    }
+
+    function parseJwt(token) {
+      var base64Url = token.split('.')[1];
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
+
+    function mockGoogleLogin() {
+      currentUser = {
+        name: "ผู้ใช้งานทั่วไป",
+        email: "student@prot.ac.th",
+        picture: "https://ui-avatars.com/api/?name=User&background=7e22ce&color=facc15&bold=true"
+      };
+      loginSuccess();
+    }
+
+    function loginSuccess() {
+      document.getElementById('userAvatar').src = currentUser.picture;
+      document.getElementById('userNameDisplay').innerText = currentUser.name;
+      document.getElementById('userEmailDisplay').innerText = currentUser.email;
+      document.getElementById('reporterName').value = currentUser.name;
+
+      document.getElementById('step2Page').classList.add('hidden');
+      document.getElementById('mainWebsite').classList.remove('hidden');
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      document.getElementById('mainWebsite').classList.add('hidden');
+      document.getElementById('step1Page').classList.remove('hidden');
+    }
+
+    function getStoredReports() {
+      const stored = localStorage.getItem('ppt_net_reports');
+      return stored ? JSON.parse(stored) : [];
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('reporterName').value;
+      const role = document.getElementById('reporterRole').value;
+      const location = document.getElementById('location').value;
+      const type = document.getElementById('issueType').value;
+      const detail = document.getElementById('issueDetail').value;
+      const timeStr = new Date().toLocaleString('th-TH');
+
+      const newReport = {
+        id: Date.now(),
+        name, role, location, type,
+        detail: detail || '-',
+        status: 'รอดำเนินการ',
+        time: timeStr
+      };
+
+      const reports = getStoredReports();
+      reports.unshift(newReport);
+      localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
+
+      document.getElementById('succName').innerText = `${name} (${role})`;
+      document.getElementById('succLocation').innerText = location;
+      document.getElementById('succType').innerText = type;
+      document.getElementById('succTime').innerText = timeStr;
+
+      document.getElementById('reportForm').reset();
+      if (currentUser) document.getElementById('reporterName').value = currentUser.name;
+
+      document.getElementById('mainWebsite').classList.add('hidden');
+      document.getElementById('successPage').classList.remove('hidden');
+    }
+
+    function goBackToForm() {
+      document.getElementById('successPage').classList.add('hidden');
+      document.getElementById('mainWebsite').classList.remove('hidden');
+    }
+
+    function backToStep1FromSuccess() {
+      document.getElementById('successPage').classList.add('hidden');
+      document.getElementById('step1Page').classList.remove('hidden');
+    }
+
+    function openAdminLogin() {
+      const pass = prompt("กรุณากรอกรหัสผ่านผู้ดูแลระบบ:");
+      if (pass === "protpptnetcare01") {
+        document.getElementById('step1Page').classList.add('hidden');
+        document.getElementById('step2Page').classList.add('hidden');
+        document.getElementById('mainWebsite').classList.add('hidden');
+        document.getElementById('successPage').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        renderAdminDashboard();
+      } else if (pass !== null) {
+        alert("รหัสผ่านไม่ถูกต้อง!");
+      }
+    }
+
+    function exitAdmin() {
+      document.getElementById('adminPanel').classList.add('hidden');
+      document.getElementById('step1Page').classList.remove('hidden');
+    }
+
+    function renderAdminDashboard() {
+      const reports = getStoredReports();
+      const tbody = document.getElementById('adminReportTable');
+      tbody.innerHTML = '';
+
+      let total = reports.length, pending = 0, completed = 0;
+
+      if (reports.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400">ยังไม่มีรายการแจ้งปัญหา</td></tr>`;
+      } else {
+        reports.forEach(item => {
+          if (item.status === 'เสร็จสิ้น') completed++;
+          else pending++;
+
+          let statusBadge = item.status === 'รอดำเนินการ' 
+            ? `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-1 rounded-full text-xs font-semibold">⏳ รอดำเนินการ</span>`
+            : item.status === 'กำลังแก้ไข'
+            ? `<span class="bg-blue-500/20 text-blue-300 border border-blue-500/40 px-2.5 py-1 rounded-full text-xs font-semibold">🔧 กำลังแก้ไข</span>`
+            : `<span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-1 rounded-full text-xs font-semibold">✅ เสร็จสิ้น</span>`;
+
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-700/30 transition";
+          tr.innerHTML = `
+            <td class="p-3.5 whitespace-nowrap text-slate-400">${item.time}</td>
+            <td class="p-3.5"><div class="font-bold text-amber-200">${item.name}</div><div class="text-[11px] text-slate-400">${item.role}</div></td>
+            <td class="p-3.5 text-slate-200">${item.location}</td>
+            <td class="p-3.5"><div class="font-semibold text-purple-200">${item.type}</div><div class="text-[11px] text-slate-400">${item.detail}</div></td>
+            <td class="p-3.5 text-center">${statusBadge}</td>
+            <td class="p-3.5 text-center whitespace-nowrap">
+              <button onclick="toggleStatus(${item.id})" class="bg-purple-700/60 hover:bg-purple-600 text-white text-[11px] px-2.5 py-1 rounded-lg transition mr-1">สลับสถานะ</button>
+              <button onclick="deleteReport(${item.id})" class="bg-red-900/60 hover:bg-red-800 text-red-200 text-[11px] px-2 py-1 rounded-lg transition">ลบ</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('statTotal').innerText = total;
+      document.getElementById('statPending').innerText = pending;
+      document.getElementById('statCompleted').innerText = completed;
+    }
+
+    function toggleStatus(id) {
+      let reports = getStoredReports();
+      reports = reports.map(item => {
+        if (item.id === id) {
+          item.status = item.status === 'รอดำเนินการ' ? 'กำลังแก้ไข' : item.status === 'กำลังแก้ไข' ? 'เสร็จสิ้น' : 'รอดำเนินการ';
         }
+        return item;
+      });
+      localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
+      renderAdminDashboard();
+    }
 
-        // ฟังก์ชันหลักที่จะทำงานเมื่อผู้ใช้ล็อกอิน Google สำเร็จ
-        function handleCredentialResponse(response) {
-            // ถอดรหัสดึงข้อมูลผู้ใช้
-            const responsePayload = parseJwt(response.credential);
+    function deleteReport(id) {
+      if (confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
+        let reports = getStoredReports();
+        reports = reports.filter(item => item.id !== id);
+        localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
+        renderAdminDashboard();
+      }
+    }
 
-            console.log("ID: " + responsePayload.sub);
-            console.log("Full Name: " + responsePayload.name);
-            console.log("Image URL: " + responsePayload.picture);
-            console.log("Email: " + responsePayload.email);
+    function clearAllReports() {
+      if (confirm('คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลทั้งหมด?')) {
+        localStorage.setItem('ppt_net_reports', JSON.stringify([]));
+        renderAdminDashboard();
+      }
+    }
+  </script>
 
-            // ซ่อนปุ่มล็อกอิน
-            document.querySelector('.g_id_signin').style.display = 'none';
-
-            // นำข้อมูลมาแสดงบนหน้าเว็บ
-            document.getElementById('userPicture').src = responsePayload.picture;
-            document.getElementById('userName').innerText = responsePayload.name;
-            document.getElementById('userEmail').innerText = responsePayload.email;
-            document.getElementById('userInfo').style.display = 'block';
-
-            // *คุณสามารถสั่ง Redirect ไปหน้าอื่นต่อได้ เช่น:
-            // window.location.href = "dashboard.html";
-        }
-    </script>
 </body>
 </html>
