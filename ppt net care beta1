@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบตรวจสอบสถานะ - PTT Net Care พรตพิทยพยัต</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Font: Sarabun -->
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Sarabun', sans-serif; }
+    /* สไตล์สำหรับปรับปรุงหน้าตาเฉพาะจุด */
+    .timeline-line {
+      width: 2px;
+      background-color: #333;
+      position: absolute;
+      top: 2.5rem; /* ปรับระดับเส้นเชื่อมตามไอคอน */
+      bottom: -0.5rem;
+      left: calc(2rem + 1px); /* ให้เส้นอยู่กึ่งกลางไอคอน 4rem */
+      z-index: 0;
+    }
+    .timeline-item:last-child .timeline-line {
+      display: none; /* ซ่อนเส้นเชื่อมในรายการสุดท้าย */
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-100 via-white to-purple-100 min-h-screen flex flex-col justify-between text-slate-800">
+
+  <!-- ==================== Header & แถบค้นหา (เหมือนต้นฉบับ) ==================== -->
+  <header class="p-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-4">
+        <!-- โลโก้โรงเรียน (จำลอง) -->
+        <div class="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
+          <span class="text-4xl">🏫</span> 
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-slate-950">ปัญหาของคุณได้รับการแก้ไขแล้วผ่าน PTT Net Care</h1>
+          <p class="text-slate-600">ตรวจสอบสถานะการแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต</p>
+        </div>
+      </div>
+      
+      <!-- แถบค้นหาและไอคอนสถานะ Wi-Fi -->
+      <div class="flex items-center gap-4 w-full md:w-auto">
+        <div class="relative w-full md:w-80">
+          <input type="text" placeholder="ค้นหาเนื้อหาที่เกี่ยวข้อง" class="w-full pl-12 pr-4 py-3 rounded-full bg-white border border-slate-200 shadow-inner focus:ring-2 focus:ring-purple-400 outline-none">
+          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+        </div>
+        <!-- ไอคอน Wi-Fi (จำลอง) -->
+        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-slate-100 text-3xl">
+          📡
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== Main Content: หน้าไทม์ไลน์ (เป้าหมายหลัก) ==================== -->
+  <main class="flex-grow p-6">
+    <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-8 border border-slate-100 flex flex-col md:flex-row gap-8 relative">
+      
+      <!-- ส่วนซ้าย: ข้อมูลหลักและไทม์ไลน์ -->
+      <div class="flex-grow space-y-8 relative">
+        
+        <!-- ข้อมูลปัญหาและผู้แก้ไข -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="bg-black text-white text-xs font-mono font-bold px-3 py-1.5 rounded-full">Wi-Fi</span>
+            <h2 class="text-2xl font-bold text-black">ปัญหา อินเทอร์เน็ตช้า</h2>
+          </div>
+          <p class="text-lg font-semibold text-slate-800">แก้ไขโดย <span class="font-bold">ทีมงาน IT ครูรัชพล ไชยวงค์</span></p>
+          <div class="flex items-center gap-2 text-red-600">
+            <span class="text-xl">📍</span>
+            <span>ตึก 6 ชั้น 4 อาคาร 60 ปี พรตพิทยพยัต</span>
+          </div>
+        </div>
+
+        <!-- รายการไทม์ไลน์ (Timeline Items) -->
+        <div class="space-y-3 relative">
+          
+          <!-- เส้นเชื่อมไทม์ไลน์ -->
+          <div class="timeline-line"></div>
+
+          <!-- 1. แจ้ง (สีแดง/ชมพู) -->
+          <div class="timeline-item flex items-center gap-6 p-4 rounded-xl relative z-10 bg-red-100/70 border border-red-200 shadow-sm">
+            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl border border-slate-100 shadow">🧑‍💻</div>
+            <div class="flex-grow">
+              <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">แจ้ง</span>
+              <p class="text-sm mt-1 text-slate-600">8 พฤษภาคม 2569 22:14</p>
+            </div>
+          </div>
+
+          <!-- 2. รับเรื่อง (สีเหลือง) -->
+          <div class="timeline-item flex items-center gap-6 p-4 rounded-xl relative z-10 bg-yellow-100 border border-yellow-200 shadow-sm">
+            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl border border-slate-100 shadow">⚙️</div>
+            <div class="flex-grow">
+              <span class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">รับเรื่อง</span>
+              <p class="text-sm mt-1 text-slate-600">8 พฤษภาคม 2569 22:16</p>
+            </div>
+          </div>
+
+          <!-- 3. เสร็จสิ้น (สีเขียว) -->
+          <div class="timeline-item flex items-center gap-6 p-4 rounded-xl relative z-10 bg-green-100 border border-green-200 shadow-sm">
+            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl border border-slate-100 shadow">✔️</div>
+            <div class="flex-grow">
+              <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">เสร็จสิ้น</span>
+              <p class="text-sm mt-1 text-slate-600">9 พฤษภาคม 2569 13:44</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- กล่องสรุปเวลา (สีม่วง) -->
+        <div class="bg-purple-300 rounded-xl p-4 border-2 border-black inline-block shadow-lg">
+          <p class="text-sm font-bold text-black border-2 border-black bg-white px-3 py-1 rounded-full inline-block mb-2">ใช้เวลาแก้ไข</p>
+          <p class="text-4xl font-black text-black">15 ชั่วโมง 28 นาที</p>
+        </div>
+      </div>
+
+      <!-- ส่วนขวา: แชทและรูปภาพหลักฐาน -->
+      <div class="w-full md:w-80 flex flex-col gap-6">
+        
+        <!-- แชทจำลอง (สีดำ) -->
+        <div class="bg-slate-900 text-white rounded-2xl p-6 space-y-4 shadow-xl border border-slate-700 relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">แจ้ง</span>
+          <div class="text-xs text-slate-400 text-right">22:14</div>
+          <p class="bg-slate-800 p-3 rounded-lg text-sm inline-block">เน็ตตึก6ไม่แรงเลยครับ</p>
+          <div class="clear-both"></div>
+          <p class="bg-slate-800 p-3 rounded-lg text-sm inline-block">ชั้น4ครับ</p>
+        </div>
+
+        <!-- รูปภาพหลักฐาน (จำลอง) -->
+        <div class="bg-slate-100 rounded-2xl p-4 border border-slate-200 shadow-inner relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">เสร็จสิ้น</span>
+          <!-- รูปหน้าจอ (จำลอง) -->
+          <div class="w-full h-48 bg-slate-800 rounded-lg flex flex-col items-center justify-center border-4 border-white shadow">
+            <span class="text-5xl">💻</span>
+            <span class="text-slate-400 text-xs mt-2">ภาพถ่ายการแก้ไข</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== Footer (เหมือนต้นฉบับ) ==================== -->
+  <footer class="bg-slate-900 text-slate-500 text-center py-5 text-sm">
+    © 2026 PPT Net Care - Protpittayapayat School. โรงเรียนพรตพิทยพยัต. Hosted on GitHub Pages.
+  </footer>
+
+</body>
+</html>
