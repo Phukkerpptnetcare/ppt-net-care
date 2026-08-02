@@ -63,10 +63,11 @@
         <p class="text-xs text-slate-500 mt-1">กรุณายืนยันตัวตนด้วยบัญชี Google ก่อนส่งข้อมูลแจ้งปัญหา</p>
       </div>
 
-      <!-- ใส่ Client ID ของคุณลงไปตรงนี้เรียบร้อยแล้ว -->
-      <div class="flex justify-center my-4">
+      <!-- ปุ่ม Google Login จริง -->
+      <div class="flex justify-center my-4 min-h-[44px]">
+        <!-- ⚠️ อย่าลืมนำ Client ID ของคุณมาวางใส่ใน data-client_id ⚠️ -->
         <div id="g_id_onload"
-             data-client_id="711516435096-59lnvo86c57t6a5ivh7p7djib8crbvo7.apps.googleusercontent.com"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
              data-callback="handleCredentialResponse"
              data-auto_prompt="false">
         </div>
@@ -80,9 +81,12 @@
         </div>
       </div>
 
-      <button onclick="mockGoogleLogin()" class="w-full bg-purple-900 hover:bg-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 text-sm border border-amber-400">
-        🚀 เข้าใช้งานระบบทันที (โหมดทดสอบ)
-      </button>
+      <!-- ปุ่มทดสอบระบบกรณีไม่ได้ต่อ Google Client ID -->
+      <div class="pt-2 border-t border-slate-100">
+        <button onclick="mockGoogleLogin()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-2.5 rounded-2xl transition duration-200 text-xs border border-slate-200">
+          🧪 เข้าใช้งานโหมดทดสอบ (สำหรับทดสอบระบบ)
+        </button>
+      </div>
 
       <button onclick="backToStep1()" class="text-xs text-slate-400 hover:text-slate-600 underline block mx-auto pt-2">
         ← ย้อนกลับหน้าแรก
@@ -303,27 +307,37 @@
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
+    // ฟังก์ชันถอดรหัส Token ที่รับมาจาก Google Sign-In
+    function parseJwt(token) {
+      try {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        console.error("JWT Decode error:", e);
+        return null;
+      }
+    }
+
+    // Callback เมื่อล็อกอินผ่าน Google สำเร็จ
     function handleCredentialResponse(response) {
       const responsePayload = parseJwt(response.credential);
-      
-      currentUser = {
-        name: responsePayload.name,
-        email: responsePayload.email,
-        picture: responsePayload.picture
-      };
-
-      loginSuccess();
+      if (responsePayload) {
+        currentUser = {
+          name: responsePayload.name,
+          email: responsePayload.email,
+          picture: responsePayload.picture
+        };
+        loginSuccess();
+      } else {
+        alert("เกิดข้อผิดพลาดในการรับข้อมูลล็อกอินจาก Google");
+      }
     }
 
-    function parseJwt(token) {
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    }
-
+    // โหมดทดสอบ (สำหรับทดสอบโดยไม่ต้องมี Google Client ID)
     function mockGoogleLogin() {
       currentUser = {
         name: "ผู้ใช้งานทั่วไป",
@@ -334,9 +348,12 @@
     }
 
     function loginSuccess() {
+      // แสดงข้อมูลผู้ใช้ในหน้าเว็บ
       document.getElementById('userAvatar').src = currentUser.picture;
       document.getElementById('userNameDisplay').innerText = currentUser.name;
       document.getElementById('userEmailDisplay').innerText = currentUser.email;
+      
+      // ใส่ชื่อผู้แจ้งในแบบฟอร์มอัตโนมัติ
       document.getElementById('reporterName').value = currentUser.name;
 
       document.getElementById('step2Page').classList.add('hidden');
@@ -345,6 +362,8 @@
 
     function handleLogout() {
       currentUser = null;
+      // ล้างค่าชื่อในฟอร์มเมื่อกดออกจากระบบ
+      document.getElementById('reporterName').value = '';
       document.getElementById('mainWebsite').classList.add('hidden');
       document.getElementById('step1Page').classList.remove('hidden');
     }
@@ -363,36 +382,57 @@
       const detail = document.getElementById('issueDetail').value;
       const timeStr = new Date().toLocaleString('th-TH');
 
+      const reports = getStoredReports();
+
+      // เช็คการส่งรายการซ้ำที่ยังรอดำเนินการอยู่
+      const isDuplicate = reports.find(item => 
+        item.name === name && 
+        item.location === location && 
+        item.type === type && 
+        item.status === 'รอดำเนินการ'
+      );
+
+      if (isDuplicate) {
+        alert("คุณได้แจ้งปัญหานี้ที่สถานที่นี้ไปแล้ว กรุณารอทีมงาน IT ดำเนินการสักครู่นะครับ!");
+        return;
+      }
+
       const newReport = {
-        id: Date.now(),
+        id: Date.now() + Math.random(),
         name, role, location, type,
         detail: detail || '-',
         status: 'รอดำเนินการ',
         time: timeStr
       };
 
-      const reports = getStoredReports();
       reports.unshift(newReport);
       localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
 
+      // แสดงข้อมูลสรุปในหน้า Success
       document.getElementById('succName').innerText = `${name} (${role})`;
       document.getElementById('succLocation').innerText = location;
       document.getElementById('succType').innerText = type;
       document.getElementById('succTime').innerText = timeStr;
 
-      document.getElementById('reportForm').reset();
-      if (currentUser) document.getElementById('reporterName').value = currentUser.name;
-
+      // สลับไปแสดงหน้า Success Page
       document.getElementById('mainWebsite').classList.add('hidden');
       document.getElementById('successPage').classList.remove('hidden');
     }
 
     function goBackToForm() {
+      document.getElementById('location').value = '';
+      document.getElementById('issueDetail').value = '';
+      document.getElementById('issueType').selectedIndex = 0;
+      
       document.getElementById('successPage').classList.add('hidden');
       document.getElementById('mainWebsite').classList.remove('hidden');
     }
 
     function backToStep1FromSuccess() {
+      document.getElementById('location').value = '';
+      document.getElementById('issueDetail').value = '';
+      document.getElementById('issueType').selectedIndex = 0;
+
       document.getElementById('successPage').classList.add('hidden');
       document.getElementById('step1Page').classList.remove('hidden');
     }
