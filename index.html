@@ -21,12 +21,18 @@
   <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-6 max-w-md w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative flex flex-col items-center">
       
-      <!-- โลโก้หลักตราโรงเรียน (พ.ย.) -->
+      <!-- โลโก้หลักตราโรงเรียน (เปลี่ยนเป็นรูป logo.png หรือไอคอนวงกลม) -->
       <div class="relative">
         <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-purple-400 rounded-full blur opacity-50"></div>
-        <img src="10105750_1_20260205-172819.png" 
-             alt="PPT Net Care Logo" 
-             class="relative w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-amber-400 shadow-2xl bg-amber-400">
+        
+        <!-- กรณีมีรูปตราโรงเรียนไฟล์ logo.png สามารถแก้ src="logo.png" ได้เลยครับ -->
+        <div class="relative w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-amber-400 shadow-2xl bg-amber-400 flex items-center justify-center overflow-hidden p-2">
+          <!-- รูปตราโรงเรียน (ถ้ามีไฟล์รูปตราโรงเรียนแยก ให้เปลี่ยน src ตรงนี้) -->
+          <img src="logo.png" 
+               onerror="this.onerror=null; this.src='https://api.iconify.design/heroicons:wifi-20-solid.svg?color=%23581c87';" 
+               alt="PPT Net Care Logo" 
+               class="w-full h-full object-contain">
+        </div>
       </div>
 
       <div class="space-y-1 pt-1">
@@ -82,7 +88,7 @@
         <p class="text-xs text-slate-500 mt-1">กรุณายืนยันตัวตนด้วยบัญชี Google ก่อนส่งข้อมูลแจ้งปัญหา</p>
       </div>
 
-      <!-- ปุ่ม Google Login จริง (นำ Client ID มาใส่แทนใน data-client_id) -->
+      <!-- ปุ่ม Google Login จริง -->
       <div class="flex justify-center my-4 min-h-[44px]">
         <div id="g_id_onload"
              data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
@@ -121,8 +127,11 @@
       <div class="max-w-6xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         
         <div class="flex items-center gap-3">
-          <img src="10105750_1_20260205-172819.png" 
-               alt="Logo" class="w-11 h-11 rounded-full border-2 border-amber-400 object-cover shadow-md bg-amber-400">
+          <div class="w-11 h-11 rounded-full border-2 border-amber-400 bg-amber-400 flex items-center justify-center p-1 overflow-hidden shadow-md">
+            <img src="logo.png" 
+                 onerror="this.onerror=null; this.src='https://api.iconify.design/heroicons:wifi-20-solid.svg?color=%23581c87';" 
+                 alt="Logo" class="w-full h-full object-contain">
+          </div>
           <div>
             <h1 class="text-xl md:text-2xl font-bold text-amber-300 leading-tight font-heading">PPT Net Care</h1>
             <p class="text-xs text-purple-200">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต</p>
@@ -324,7 +333,7 @@
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
-    // ถอดรหัส Google JWT Token เมื่อผู้ใช้กดล็อกอินสำเร็จ
+    // ถอดรหัส Google JWT Token
     function parseJwt(token) {
       try {
         var base64Url = token.split('.')[1];
@@ -358,7 +367,7 @@
       currentUser = {
         name: "ผู้ใช้งานทั่วไป",
         email: "student@prot.ac.th",
-        picture: "10105750_1_20260205-172819.png"
+        picture: "logo.png"
       };
       loginSuccess();
     }
