@@ -18,7 +18,7 @@
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
   <!-- ========================================================================= -->
-  <!-- STEP 1: หน้าแรกสุด (มีเฉพาะโลโก้ + ปุ่มรูปภาพเดี่ยวๆ)                      -->
+  <!-- STEP 1: หน้าแรกสุด (มีเฉพาะตราโรงเรียน + ปุ่มรูปภาพเดี่ยวๆ)                 -->
   <!-- ========================================================================= -->
   <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-8 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative">
@@ -41,7 +41,7 @@
         <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
       </div>
 
-      <!-- ปุ่มเข้าสู่เว็บ (ไว้หน้าแรกเดี่ยวๆ) -->
+      <!-- ปุ่มเข้าสู่เว็บ (เดี่ยวๆ หน้าแรก) -->
       <div class="pt-4 flex justify-center">
         <button onclick="goToLoginPage()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
           <img src="10105750_1_20260205-172819.png" 
@@ -50,7 +50,7 @@
         </button>
       </div>
 
-      <!-- ลิงก์แอบเข้าหน้า Admin -->
+      <!-- ลิงก์เข้าหน้า Admin -->
       <div class="pt-2">
         <button onclick="openAdminLogin()" class="text-xs text-amber-300/60 hover:text-amber-300 underline">
           🔑 ผู้ดูแลระบบ (IT Admin)
@@ -62,7 +62,7 @@
 
 
   <!-- ========================================================================= -->
-  <!-- STEP 2: หน้าล็อกอิน GMAIL (จะแสดงหลังจากกดปุ่มหน้าแรก)                  -->
+  <!-- STEP 2: หน้าล็อกอิน GMAIL (มีเฉพาะโลโก้ Google และปุ่มล็อกอิน)           -->
   <!-- ========================================================================= -->
   <div id="step2Page" class="hidden fixed inset-0 z-40 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-6 max-w-md w-full bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-400">
@@ -79,10 +79,10 @@
 
       <div>
         <h2 class="text-2xl font-bold text-purple-950 font-heading">เข้าสู่ระบบด้วย Gmail</h2>
-        <p class="text-xs text-slate-500 mt-1">กรุณาเข้าสู่ระบบด้วยบัญชี Google เพื่อยืนยันตัวตนก่อนแจ้งปัญหา</p>
+        <p class="text-xs text-slate-500 mt-1">กรุณายืนยันตัวตนด้วยบัญชี Google ก่อนส่งข้อมูลแจ้งปัญหา</p>
       </div>
 
-      <!-- ปุ่มเข้าสู่ระบบ Google ของจริง (จะสร้างปุ่มทางการจาก Google SDK) -->
+      <!-- ปุ่มเข้าสู่ระบบ Google ของจริง -->
       <div class="flex justify-center my-4">
         <div id="g_id_onload"
              data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
@@ -99,12 +99,12 @@
         </div>
       </div>
 
-      <!-- ปุ่มสำรอง กรณีทดสอบบน GitHub หรือไม่ได้ใส่ Client ID -->
+      <!-- ปุ่มสำรอง สำหรับทดสอบระบบ -->
       <button onclick="mockGoogleLogin()" class="w-full bg-purple-900 hover:bg-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 text-sm border border-amber-400">
         🚀 เข้าใช้งานระบบทันที (โหมดทดสอบ)
       </button>
 
-      <button onclick="backToStep1()" class="text-xs text-slate-400 hover:text-slate-600 underline block mx-auto">
+      <button onclick="backToStep1()" class="text-xs text-slate-400 hover:text-slate-600 underline block mx-auto pt-2">
         ← ย้อนกลับหน้าแรก
       </button>
 
@@ -113,7 +113,7 @@
 
 
   <!-- ========================================================================= -->
-  <!-- STEP 3: MAIN WEBSITE (หน้าฟอร์มแจ้งปัญหา)                                 -->
+  <!-- STEP 3: MAIN WEBSITE (หน้าฟอร์มแจ้งปัญหาหลัก)                             -->
   <!-- ========================================================================= -->
   <div id="mainWebsite" class="hidden min-h-screen bg-slate-100 flex flex-col justify-between">
     
@@ -131,7 +131,7 @@
           </div>
         </div>
 
-        <!-- Google User Profile Widget -->
+        <!-- Widget แสดงโปรไฟล์ Google -->
         <div id="userProfileWidget" class="flex items-center gap-3 bg-purple-950/80 px-4 py-2 rounded-2xl border border-amber-400/30">
           <img id="userAvatar" src="https://via.placeholder.com/40" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-amber-400 object-cover">
           <div class="text-left text-xs">
@@ -146,7 +146,7 @@
       </div>
     </header>
 
-    <!-- Content Wrapper -->
+    <!-- Main Form Section -->
     <main class="max-w-5xl w-full mx-auto p-4 my-6 flex-grow">
       <section class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
         <div class="border-b border-slate-200 pb-4 mb-6">
@@ -174,7 +174,7 @@
             </div>
             <div>
               <label class="block text-sm font-semibold text-slate-700 mb-1">สถานที่พบปัญหา <span class="text-red-500">*</span></label>
-              <input type="text" id="location" required placeholder="เช่น ตึก 6 ชั้น 4 อาคาร 60 ปี" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+              <input type="text" id="location" required placeholder="เช่น อาคาร 6 ชั้น 4" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
             </div>
           </div>
 
@@ -202,7 +202,7 @@
     </main>
 
     <footer class="bg-purple-950 text-purple-300 text-center py-4 text-xs border-t border-amber-400/20">
-      © 2026 PPT Net Care - โรงเรียนพรตพิทยพยัต Protpittayapayat School.
+      © 2026 PPT Net Care - โรงเรียนพรตพิทยพยัต Protpittayapayat School
     </footer>
   </div>
 
@@ -287,9 +287,8 @@
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
-    // ทำงานเมื่อล็อกอิน Google จริงสำเร็จ (ถ้าระบบผูก Client ID ไว้)
+    // ทำงานเมื่อล็อกอิน Google จริงสำเร็จ
     function handleCredentialResponse(response) {
-      // แกะ Token JWT จาก Google
       const responsePayload = parseJwt(response.credential);
       
       currentUser = {
@@ -311,7 +310,7 @@
       return JSON.parse(jsonPayload);
     }
 
-    // ระบบล็อกอินสำรองกรณีทดสอบ
+    // ล็อกอินสำรองสำหรับทดสอบ
     function mockGoogleLogin() {
       currentUser = {
         name: "ผู้ใช้งานทั่วไป",
@@ -321,7 +320,7 @@
       loginSuccess();
     }
 
-    // พอล็อกอินสำเร็จ ให้เปลี่ยนเข้าหน้าแบบฟอร์ม
+    // พอล็อกอินสำเร็จ ให้สลับเข้าหน้าฟอร์มหลัก
     function loginSuccess() {
       document.getElementById('userAvatar').src = currentUser.picture;
       document.getElementById('userNameDisplay').innerText = currentUser.name;
@@ -338,7 +337,7 @@
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
-    // Storage Management
+    // Data Storage Logic
     function getStoredReports() {
       const stored = localStorage.getItem('ppt_net_reports');
       return stored ? JSON.parse(stored) : [];
@@ -369,7 +368,7 @@
       if (currentUser) document.getElementById('reporterName').value = currentUser.name;
     }
 
-    // Admin Functions
+    // Admin Dashboard Logic
     function openAdminLogin() {
       const pass = prompt("กรุณากรอกรหัสผ่านผู้ดูแลระบบ:", "1234");
       if (pass === "1234") {
