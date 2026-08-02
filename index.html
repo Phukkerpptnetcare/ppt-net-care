@@ -17,25 +17,33 @@
 </head>
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
-  <!-- STEP 1: หน้าแรกสุด -->
+  <!-- STEP 1: หน้าแรกสุด (หน้าต้อนรับ / เข้าสู่เว็บไซต์) -->
   <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
-    <div class="text-center space-y-8 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative">
+    <div class="text-center space-y-6 max-w-md w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative flex flex-col items-center">
       
-      <div class="space-y-2 pt-4">
+      <!-- โลโก้หลักที่อัปโหลดขึ้น GitHub -->
+      <div class="relative group cursor-pointer" onclick="goToLoginPage()">
+        <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-purple-400 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-300"></div>
+        <img src="48cf0922de551a86d785a0c933e62db7~tplv-tiktokx-cropcenter_1080_1080.jpeg" 
+             alt="PPT Net Care Logo" 
+             class="relative w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-amber-400 shadow-2xl transition duration-300 transform group-hover:scale-105">
+      </div>
+
+      <div class="space-y-2 pt-2">
         <h1 class="text-3xl md:text-4xl font-bold text-amber-300 drop-shadow-md font-heading">PPT Net Care</h1>
         <p class="text-base text-purple-100 font-medium">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต</p>
         <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
       </div>
 
-      <div class="pt-4 flex justify-center">
-        <button onclick="goToLoginPage()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
-          <img src="10105750_1_20260205-172819.png" 
-               alt="เข้าสู่เว็บไซต์ Enter website" 
-               class="max-w-xs md:max-w-md h-auto drop-shadow-2xl group-hover:brightness-110 transition">
+      <!-- ปุ่มเข้าสู่เว็บไซต์ -->
+      <div class="w-full pt-4">
+        <button onclick="goToLoginPage()" class="w-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-purple-950 font-bold py-3.5 px-6 rounded-2xl shadow-xl transition duration-300 transform hover:-translate-y-0.5 active:translate-y-0 font-heading text-lg border border-amber-200 flex items-center justify-center gap-2">
+          <span>🚀</span>
+          <span>เข้าสู่เว็บไซต์ (Enter Website)</span>
         </button>
       </div>
 
-      <div class="pt-2 pb-2">
+      <div class="pt-2">
         <button onclick="openAdminLogin()" class="text-xs text-amber-300/60 hover:text-amber-300 underline transition">
           🔑 ผู้ดูแลระบบ (IT Admin)
         </button>
@@ -65,7 +73,6 @@
 
       <!-- ปุ่ม Google Login จริง -->
       <div class="flex justify-center my-4 min-h-[44px]">
-        <!-- ⚠️ อย่าลืมนำ Client ID ของคุณมาวางใส่ใน data-client_id ⚠️ -->
         <div id="g_id_onload"
              data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
              data-callback="handleCredentialResponse"
@@ -103,9 +110,8 @@
       <div class="max-w-6xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 bg-amber-400 rounded-full p-1 flex items-center justify-center shadow-md border-2 border-white">
-            <span class="text-purple-900 font-bold text-lg font-heading">พ.ย.</span>
-          </div>
+          <img src="48cf0922de551a86d785a0c933e62db7~tplv-tiktokx-cropcenter_1080_1080.jpeg" 
+               alt="Logo" class="w-11 h-11 rounded-full border-2 border-amber-400 object-cover shadow-md">
           <div>
             <h1 class="text-xl md:text-2xl font-bold text-amber-300 leading-tight font-heading">PPT Net Care</h1>
             <p class="text-xs text-purple-200">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต</p>
@@ -307,7 +313,6 @@
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
-    // ฟังก์ชันถอดรหัส Token ที่รับมาจาก Google Sign-In
     function parseJwt(token) {
       try {
         var base64Url = token.split('.')[1];
@@ -322,7 +327,6 @@
       }
     }
 
-    // Callback เมื่อล็อกอินผ่าน Google สำเร็จ
     function handleCredentialResponse(response) {
       const responsePayload = parseJwt(response.credential);
       if (responsePayload) {
@@ -337,23 +341,19 @@
       }
     }
 
-    // โหมดทดสอบ (สำหรับทดสอบโดยไม่ต้องมี Google Client ID)
     function mockGoogleLogin() {
       currentUser = {
         name: "ผู้ใช้งานทั่วไป",
         email: "student@prot.ac.th",
-        picture: "https://ui-avatars.com/api/?name=User&background=7e22ce&color=facc15&bold=true"
+        picture: "48cf0922de551a86d785a0c933e62db7~tplv-tiktokx-cropcenter_1080_1080.jpeg"
       };
       loginSuccess();
     }
 
     function loginSuccess() {
-      // แสดงข้อมูลผู้ใช้ในหน้าเว็บ
       document.getElementById('userAvatar').src = currentUser.picture;
       document.getElementById('userNameDisplay').innerText = currentUser.name;
       document.getElementById('userEmailDisplay').innerText = currentUser.email;
-      
-      // ใส่ชื่อผู้แจ้งในแบบฟอร์มอัตโนมัติ
       document.getElementById('reporterName').value = currentUser.name;
 
       document.getElementById('step2Page').classList.add('hidden');
@@ -362,7 +362,6 @@
 
     function handleLogout() {
       currentUser = null;
-      // ล้างค่าชื่อในฟอร์มเมื่อกดออกจากระบบ
       document.getElementById('reporterName').value = '';
       document.getElementById('mainWebsite').classList.add('hidden');
       document.getElementById('step1Page').classList.remove('hidden');
@@ -384,7 +383,6 @@
 
       const reports = getStoredReports();
 
-      // เช็คการส่งรายการซ้ำที่ยังรอดำเนินการอยู่
       const isDuplicate = reports.find(item => 
         item.name === name && 
         item.location === location && 
@@ -408,13 +406,11 @@
       reports.unshift(newReport);
       localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
 
-      // แสดงข้อมูลสรุปในหน้า Success
       document.getElementById('succName').innerText = `${name} (${role})`;
       document.getElementById('succLocation').innerText = location;
       document.getElementById('succType').innerText = type;
       document.getElementById('succTime').innerText = timeStr;
 
-      // สลับไปแสดงหน้า Success Page
       document.getElementById('mainWebsite').classList.add('hidden');
       document.getElementById('successPage').classList.remove('hidden');
     }
