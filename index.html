@@ -17,20 +17,16 @@
 </head>
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
-  <!-- ========================================================================= -->
-  <!-- STEP 1: หน้าแรกสุด (ไม่มีตราโรงเรียน + ปุ่มรูปภาพเดี่ยวๆ)                  -->
-  <!-- ========================================================================= -->
+  <!-- STEP 1: หน้าแรกสุด -->
   <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-8 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative">
       
-      <!-- ชื่อระบบ -->
       <div class="space-y-2 pt-4">
         <h1 class="text-3xl md:text-4xl font-bold text-amber-300 drop-shadow-md font-heading">PPT Net Care</h1>
         <p class="text-base text-purple-100 font-medium">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต</p>
         <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
       </div>
 
-      <!-- ปุ่มเข้าสู่เว็บ (เดี่ยวๆ หน้าแรก) -->
       <div class="pt-4 flex justify-center">
         <button onclick="goToLoginPage()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
           <img src="10105750_1_20260205-172819.png" 
@@ -39,7 +35,6 @@
         </button>
       </div>
 
-      <!-- ลิงก์เข้าหน้า Admin -->
       <div class="pt-2 pb-2">
         <button onclick="openAdminLogin()" class="text-xs text-amber-300/60 hover:text-amber-300 underline transition">
           🔑 ผู้ดูแลระบบ (IT Admin)
@@ -50,13 +45,10 @@
   </div>
 
 
-  <!-- ========================================================================= -->
-  <!-- STEP 2: หน้าล็อกอิน GMAIL                                                  -->
-  <!-- ========================================================================= -->
+  <!-- STEP 2: หน้าล็อกอิน GMAIL -->
   <div id="step2Page" class="hidden fixed inset-0 z-40 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-6 max-w-md w-full bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-400">
       
-      <!-- โลโก้ Google -->
       <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto shadow-inner border border-slate-200">
         <svg class="w-8 h-8" viewBox="0 0 24 24">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -71,10 +63,10 @@
         <p class="text-xs text-slate-500 mt-1">กรุณายืนยันตัวตนด้วยบัญชี Google ก่อนส่งข้อมูลแจ้งปัญหา</p>
       </div>
 
-      <!-- ปุ่มเข้าสู่ระบบ Google ของจริง -->
+      <!-- ใส่ Client ID ของคุณลงไปตรงนี้เรียบร้อยแล้ว -->
       <div class="flex justify-center my-4">
         <div id="g_id_onload"
-             data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+             data-client_id="711516435096-59lnvo86c57t6a5ivh7p7djib8crbvo7.apps.googleusercontent.com"
              data-callback="handleCredentialResponse"
              data-auto_prompt="false">
         </div>
@@ -88,7 +80,6 @@
         </div>
       </div>
 
-      <!-- ปุ่มสำรอง สำหรับทดสอบระบบ -->
       <button onclick="mockGoogleLogin()" class="w-full bg-purple-900 hover:bg-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 text-sm border border-amber-400">
         🚀 เข้าใช้งานระบบทันที (โหมดทดสอบ)
       </button>
@@ -101,12 +92,9 @@
   </div>
 
 
-  <!-- ========================================================================= -->
-  <!-- STEP 3: MAIN WEBSITE (หน้าฟอร์มแจ้งปัญหาหลัก)                             -->
-  <!-- ========================================================================= -->
+  <!-- STEP 3: MAIN WEBSITE -->
   <div id="mainWebsite" class="hidden min-h-screen bg-slate-100 flex flex-col justify-between">
     
-    <!-- Header Bar -->
     <header class="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-950 text-white shadow-xl border-b-4 border-amber-400">
       <div class="max-w-6xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         
@@ -120,7 +108,6 @@
           </div>
         </div>
 
-        <!-- Widget แสดงโปรไฟล์ Google -->
         <div id="userProfileWidget" class="flex items-center gap-3 bg-purple-950/80 px-4 py-2 rounded-2xl border border-amber-400/30">
           <img id="userAvatar" src="https://via.placeholder.com/40" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-amber-400 object-cover">
           <div class="text-left text-xs">
@@ -135,7 +122,6 @@
       </div>
     </header>
 
-    <!-- Main Form Section -->
     <main class="max-w-5xl w-full mx-auto p-4 my-6 flex-grow">
       <section class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
         <div class="border-b border-slate-200 pb-4 mb-6">
@@ -196,13 +182,10 @@
   </div>
 
 
-  <!-- ========================================================================= -->
-  <!-- STEP 4: SUCCESS PAGE (หน้าแจ้งปัญหาสำเร็จ)                                -->
-  <!-- ========================================================================= -->
+  <!-- STEP 4: SUCCESS PAGE -->
   <div id="successPage" class="hidden fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-6 max-w-lg w-full bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-400 animate-fade-in">
       
-      <!-- ไอคอนเครื่องหมายถูกสีเขียว -->
       <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto shadow-inner border-2 border-emerald-400">
         <svg class="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -214,7 +197,6 @@
         <p class="text-xs md:text-sm text-slate-600">ขอบคุณสำหรับการแจ้งปัญหา ทีมงาน IT โรงเรียนพรตพิทยพยัต จะรีบเข้าดำเนินการตรวจสอบโดยเร็วที่สุด</p>
       </div>
 
-      <!-- กล่องสรุปรายละเอียดข้อมูลที่แจ้ง -->
       <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left text-xs space-y-2 text-slate-700">
         <div class="flex justify-between border-b border-slate-200 pb-1.5">
           <span class="font-semibold text-purple-900">ผู้แจ้ง:</span>
@@ -234,7 +216,6 @@
         </div>
       </div>
 
-      <!-- ปุ่มดำเนินการต่อ -->
       <div class="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
         <button onclick="goBackToForm()" class="bg-purple-900 hover:bg-purple-950 text-amber-300 font-bold py-3 px-6 rounded-xl shadow-lg transition text-sm border border-amber-400">
           📝 แจ้งปัญหาเพิ่มเติม
@@ -248,9 +229,7 @@
   </div>
 
 
-  <!-- ========================================================================= -->
-  <!-- ADMIN DASHBOARD (หน้าผู้ดูแลระบบ)                                         -->
-  <!-- ========================================================================= -->
+  <!-- ADMIN DASHBOARD -->
   <div id="adminPanel" class="hidden min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between">
     <header class="bg-purple-950 text-white p-4 shadow-xl border-b border-amber-400/30 flex justify-between items-center">
       <div class="flex items-center gap-3">
@@ -310,25 +289,20 @@
   </div>
 
 
-  <!-- ========================================================================= -->
-  <!-- JAVASCRIPT LOGIC                                                         -->
-  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     let currentUser = null;
 
-    // เปลี่ยนไปหน้าล็อกอิน (Step 2)
     function goToLoginPage() {
       document.getElementById('step1Page').classList.add('hidden');
       document.getElementById('step2Page').classList.remove('hidden');
     }
 
-    // ย้อนกลับหน้าแรก (Step 1)
     function backToStep1() {
       document.getElementById('step2Page').classList.add('hidden');
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
-    // ทำงานเมื่อล็อกอิน Google จริงสำเร็จ
     function handleCredentialResponse(response) {
       const responsePayload = parseJwt(response.credential);
       
@@ -341,7 +315,6 @@
       loginSuccess();
     }
 
-    // ถอดรหัส JWT จาก Google
     function parseJwt(token) {
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -351,7 +324,6 @@
       return JSON.parse(jsonPayload);
     }
 
-    // ล็อกอินสำรองสำหรับทดสอบ
     function mockGoogleLogin() {
       currentUser = {
         name: "ผู้ใช้งานทั่วไป",
@@ -361,7 +333,6 @@
       loginSuccess();
     }
 
-    // พอล็อกอินสำเร็จ ให้สลับเข้าหน้าฟอร์มหลัก
     function loginSuccess() {
       document.getElementById('userAvatar').src = currentUser.picture;
       document.getElementById('userNameDisplay').innerText = currentUser.name;
@@ -378,13 +349,11 @@
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
-    // Data Storage Logic
     function getStoredReports() {
       const stored = localStorage.getItem('ppt_net_reports');
       return stored ? JSON.parse(stored) : [];
     }
 
-    // เมื่อส่งฟอร์ม ให้บันทึกข้อมูลและแสดงหน้า Success Page
     function handleFormSubmit(e) {
       e.preventDefault();
       const name = document.getElementById('reporterName').value;
@@ -406,34 +375,28 @@
       reports.unshift(newReport);
       localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
 
-      // ใส่ข้อมูลลงในหน้า Success Page
       document.getElementById('succName').innerText = `${name} (${role})`;
       document.getElementById('succLocation').innerText = location;
       document.getElementById('succType').innerText = type;
       document.getElementById('succTime').innerText = timeStr;
 
-      // ล้างฟอร์ม
       document.getElementById('reportForm').reset();
       if (currentUser) document.getElementById('reporterName').value = currentUser.name;
 
-      // สลับไปแสดงหน้า Success Page
       document.getElementById('mainWebsite').classList.add('hidden');
       document.getElementById('successPage').classList.remove('hidden');
     }
 
-    // ปุ่มจากหน้า Success กลับมาที่หน้าฟอร์ม
     function goBackToForm() {
       document.getElementById('successPage').classList.add('hidden');
       document.getElementById('mainWebsite').classList.remove('hidden');
     }
 
-    // ปุ่มจากหน้า Success กลับหน้าแรกสุด
     function backToStep1FromSuccess() {
       document.getElementById('successPage').classList.add('hidden');
       document.getElementById('step1Page').classList.remove('hidden');
     }
 
-    // Admin Dashboard Logic
     function openAdminLogin() {
       const pass = prompt("กรุณากรอกรหัสผ่านผู้ดูแลระบบ:");
       if (pass === "protpptnetcare01") {
