@@ -11,27 +11,15 @@
   <style>
     body { font-family: 'Sarabun', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Kanit', sans-serif; }
-
-    /* Timeline Connector */
-    .timeline-line {
-      width: 3px;
-      background-color: #d1d5db;
-      position: absolute;
-      top: 2.5rem;
-      bottom: -0.5rem;
-      left: calc(2rem - 1.5px);
-      z-index: 0;
-    }
-    .timeline-item:last-child .timeline-line { display: none; }
   </style>
 </head>
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
   <!-- ========================================================================= -->
-  <!-- 1. LANDING PAGE / INTRO SCREEN (หน้าต้อนรับ + ปุ่มรูปภาพจริง)              -->
+  <!-- 1. LANDING PAGE / INTRO SCREEN (หน้าต้อนรับ + ปุ่มรูปภาพ + Google Login)   -->
   <!-- ========================================================================= -->
   <div id="landingScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
-    <div class="text-center space-y-8 max-w-xl w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl">
+    <div class="text-center space-y-6 max-w-xl w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl">
       
       <!-- ตราโรงเรียนพรตพิทยพยัต -->
       <div class="flex justify-center">
@@ -51,14 +39,29 @@
         <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
       </div>
 
-      <!-- ================= ปุ่มกดเข้าสู่เว็บไซต์ (ใช้ไฟล์รูปภาพจาก GitHub) ================= -->
-      <div class="pt-4 flex justify-center">
+      <!-- ส่วนปุ่มเข้าสู่ระบบ Google / เข้าสู่เว็บไซต์ -->
+      <div class="pt-2 flex flex-col items-center gap-4">
+        
+        <!-- ปุ่มล็อกอิน Google -->
+        <button id="googleAuthBtn" onclick="handleGoogleLogin()" class="flex items-center justify-center gap-3 bg-white text-slate-700 font-bold px-6 py-3 rounded-2xl shadow-lg hover:bg-slate-50 transition duration-200 border border-slate-200 w-full max-w-xs active:scale-95">
+          <svg class="w-5 h-5" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+          </svg>
+          <span class="text-sm">เข้าสู่ระบบด้วย Gmail</span>
+        </button>
+
+        <div class="text-xs text-purple-200/60 font-light">- หรือกดปุ่มด้านล่างเพื่อเข้าใช้งาน -</div>
+
+        <!-- ปุ่มกดเข้าสู่เว็บไซต์ (ดึงรูปภาพตรงกับชื่อไฟล์ที่คุณอัปโหลด) -->
         <button onclick="enterWebsite()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
-          <!-- เปลี่ยน enter-btn.png เป็นชื่อไฟล์รูปภาพที่คุณอัปโหลดไว้ใน GitHub -->
-          <img src="enter-btn.png" 
+          <img src="10105750_1_20260205-172819.png" 
                alt="เข้าสู่เว็บไซต์ Enter website" 
                class="max-w-xs md:max-w-md h-auto drop-shadow-2xl group-hover:brightness-110 transition">
         </button>
+
       </div>
 
     </div>
@@ -66,13 +69,13 @@
 
 
   <!-- ========================================================================= -->
-  <!-- 2. MAIN WEBSITE (หน้าเว็บหลัก ธีมม่วง-เหลือง)                              -->
+  <!-- 2. MAIN WEBSITE (หน้าแบบฟอร์มแจ้งปัญหา + แสดงโปรไฟล์ Google)               -->
   <!-- ========================================================================= -->
   <div id="mainWebsite" class="hidden min-h-screen bg-slate-100 flex flex-col justify-between">
     
     <!-- Header Bar -->
     <header class="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-950 text-white shadow-xl border-b-4 border-amber-400">
-      <div class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="max-w-6xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         
         <!-- Logo & Title -->
         <div class="flex items-center gap-3">
@@ -85,13 +88,15 @@
           </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="flex bg-purple-950/80 p-1.5 rounded-xl border border-amber-400/30">
-          <button id="btnUser" onclick="switchMode('user')" class="px-4 py-2 rounded-lg text-xs font-bold transition bg-amber-400 text-purple-950 shadow-md">
-            📝 แจ้งปัญหา
-          </button>
-          <button id="btnTimeline" onclick="switchMode('timeline')" class="px-4 py-2 rounded-lg text-xs font-bold transition text-purple-200 hover:text-amber-300">
-            📊 ตรวจสอบสถานะ (Timeline)
+        <!-- Google User Profile Widget -->
+        <div id="userProfileWidget" class="flex items-center gap-3 bg-purple-950/80 px-4 py-2 rounded-2xl border border-amber-400/30">
+          <img id="userAvatar" src="https://via.placeholder.com/40" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-amber-400 object-cover">
+          <div class="text-left text-xs">
+            <p id="userNameDisplay" class="font-bold text-amber-300">บุคคลทั่วไป</p>
+            <p id="userEmailDisplay" class="text-purple-200 text-[10px]">ไม่ได้เข้าสู่ระบบ</p>
+          </div>
+          <button id="logoutBtn" onclick="handleLogout()" class="hidden ml-2 text-[10px] bg-red-500/80 hover:bg-red-600 text-white px-2.5 py-1 rounded-lg transition">
+            ออก
           </button>
         </div>
 
@@ -101,8 +106,8 @@
     <!-- Content Wrapper -->
     <main class="max-w-5xl w-full mx-auto p-4 my-6 flex-grow">
 
-      <!-- ================= PAGE 1: Form แจ้งปัญหา ================= -->
-      <section id="userSection" class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
+      <!-- แบบฟอร์มแจ้งปัญหา -->
+      <section class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
         <div class="border-b border-slate-200 pb-4 mb-6">
           <h2 class="text-xl font-bold text-purple-900 flex items-center gap-2">
             <span class="bg-amber-400 text-purple-900 p-2 rounded-xl text-lg">📝</span>
@@ -145,102 +150,13 @@
 
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1">รายละเอียดปัญหาเพิ่มเติม</label>
-            <textarea id="issueDetail" rows="3" placeholder="ระบุข้อความแชท หรือรายละเอียดเพิ่มเติม..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition"></textarea>
+            <textarea id="issueDetail" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition"></textarea>
           </div>
 
           <button type="submit" class="w-full bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 border border-amber-400/40 text-lg">
             ส่งข้อมูลแจ้งปัญหา
           </button>
         </form>
-      </section>
-
-
-      <!-- ================= PAGE 2: Timeline การแก้ไข ================= -->
-      <section id="timelineSection" class="hidden bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
-        
-        <!-- Header การ์ด -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-6 mb-6">
-          <div class="space-y-1">
-            <div class="flex items-center gap-2">
-              <span class="bg-purple-900 text-amber-300 text-xs font-bold px-3 py-1 rounded-full">Wi-Fi</span>
-              <h2 id="cardTitle" class="text-2xl font-bold text-slate-900">ปัญหา อินเทอร์เน็ตช้า</h2>
-            </div>
-            <p id="cardStaff" class="text-slate-700 font-semibold text-sm">แก้ไขโดย: <span class="text-purple-800">ทีมงาน IT ครูรัชพล ไชยวงค์</span></p>
-            <p id="cardLocation" class="text-red-600 font-medium text-xs flex items-center gap-1">📍 ตึก 6 ชั้น 4 อาคาร 60 ปี พรตพิทยพยัต</p>
-          </div>
-
-          <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold px-4 py-2 rounded-full shadow-sm">
-            ✓ แก้ไขเสร็จสิ้นแล้ว
-          </span>
-        </div>
-
-        <!-- Body: แบ่งซ้าย (ไทม์ไลน์) / ขวา (รูปภาพแชท) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          <!-- ซ้าย: ไทม์ไลน์ 3 ขั้นตอน -->
-          <div class="md:col-span-2 space-y-4 relative">
-            <div class="timeline-line"></div>
-
-            <!-- Step 1: แจ้ง -->
-            <div class="timeline-item flex items-center gap-4 p-4 rounded-2xl bg-red-50 border border-red-200 relative z-10 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-bold text-xl shadow">📣</div>
-              <div class="flex-grow">
-                <span class="bg-red-500 text-white text-xs font-bold px-3 py-0.5 rounded-full">แจ้งเรื่อง</span>
-                <p id="timeStep1" class="text-xs text-slate-600 mt-1">8 พฤษภาคม 2569 22:14</p>
-              </div>
-            </div>
-
-            <!-- Step 2: รับเรื่อง -->
-            <div class="timeline-item flex items-center gap-4 p-4 rounded-2xl bg-amber-50 border border-amber-200 relative z-10 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-amber-400 text-purple-950 flex items-center justify-center font-bold text-xl shadow">⚙️</div>
-              <div class="flex-grow">
-                <span class="bg-amber-400 text-purple-950 text-xs font-bold px-3 py-0.5 rounded-full">รับเรื่องดำเนินการ</span>
-                <p id="timeStep2" class="text-xs text-slate-600 mt-1">8 พฤษภาคม 2569 22:16</p>
-              </div>
-            </div>
-
-            <!-- Step 3: เสร็จสิ้น -->
-            <div class="timeline-item flex items-center gap-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 relative z-10 shadow-sm">
-              <div class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xl shadow">✓</div>
-              <div class="flex-grow">
-                <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-0.5 rounded-full">เสร็จสิ้น</span>
-                <p id="timeStep3" class="text-xs text-slate-600 mt-1">9 พฤษภาคม 2569 13:44</p>
-              </div>
-            </div>
-
-            <!-- กล่องสรุปเวลา -->
-            <div class="pt-2">
-              <div class="bg-purple-900 text-amber-300 rounded-2xl p-4 border-2 border-amber-400 shadow-md inline-block w-full">
-                <span class="bg-amber-400 text-purple-950 text-xs font-bold px-3 py-1 rounded-full inline-block mb-1">ใช้เวลาแก้ไขรวม</span>
-                <p class="text-2xl md:text-3xl font-bold font-heading">15 ชั่วโมง 28 นาที</p>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- ขวา: กล่องแชทและภาพถ่าย -->
-          <div class="space-y-4">
-            <!-- กล่องแชทจำลอง -->
-            <div class="bg-slate-900 text-white rounded-2xl p-4 space-y-2 border border-purple-900 shadow-md">
-              <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">ข้อความแจ้งปัญหา</span>
-              <div class="bg-slate-800 p-3 rounded-xl text-xs space-y-1 mt-2">
-                <p id="chatMsg1">"เน็ตตึก 6 ไม่แรงเลยครับ"</p>
-                <p id="chatMsg2" class="text-amber-300 font-medium">"ชั้น 4 ครับ"</p>
-              </div>
-            </div>
-
-            <!-- กล่องภาพหลักฐาน -->
-            <div class="bg-purple-50 rounded-2xl p-3 border border-purple-200 text-center shadow-inner">
-              <span class="bg-emerald-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-block mb-2">ภาพหลักฐานหลังแก้ไข</span>
-              <div class="w-full h-40 bg-purple-900/10 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-purple-300">
-                <span class="text-4xl">💻</span>
-                <span class="text-xs text-purple-800 font-semibold mt-1">ทดสอบ Speedtest เรียบร้อย</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
       </section>
 
     </main>
@@ -257,6 +173,44 @@
   <!-- 3. JAVASCRIPT LOGIC                                                      -->
   <!-- ========================================================================= -->
   <script>
+    let currentUser = null;
+
+    // จัดการการล็อกอินด้วย Google
+    function handleGoogleLogin() {
+      const inputEmail = prompt("กรุณากรอก Gmail ของคุณ (ตัวอย่าง: student@prot.ac.th):", "student@gmail.com");
+      
+      if (inputEmail && inputEmail.trim() !== "") {
+        const mockName = inputEmail.split('@')[0];
+        
+        currentUser = {
+          name: mockName,
+          email: inputEmail,
+          picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(mockName)}&background=7e22ce&color=facc15&bold=true`
+        };
+
+        // อัปเดต UI หน้าเว็บ
+        document.getElementById('userAvatar').src = currentUser.picture;
+        document.getElementById('userNameDisplay').innerText = currentUser.name;
+        document.getElementById('userEmailDisplay').innerText = currentUser.email;
+        document.getElementById('reporterName').value = currentUser.name;
+        document.getElementById('logoutBtn').classList.remove('hidden');
+
+        alert(`เข้าสู่ระบบสำเร็จ! ต้อนรับคุณ ${currentUser.name}`);
+        enterWebsite();
+      }
+    }
+
+    // ออกจากระบบ
+    function handleLogout() {
+      currentUser = null;
+      document.getElementById('userAvatar').src = 'https://via.placeholder.com/40';
+      document.getElementById('userNameDisplay').innerText = 'บุคคลทั่วไป';
+      document.getElementById('userEmailDisplay').innerText = 'ไม่ได้เข้าสู่ระบบ';
+      document.getElementById('reporterName').value = '';
+      document.getElementById('logoutBtn').classList.add('hidden');
+      alert('ออกจากระบบเรียบร้อยแล้ว');
+    }
+
     // กดปุ่มเข้าสู่เว็บไซต์
     function enterWebsite() {
       const landing = document.getElementById('landingScreen');
@@ -269,44 +223,20 @@
       }, 500);
     }
 
-    // สลับหน้าระหว่าง Form แจ้งปัญหา กับ Timeline
-    function switchMode(mode) {
-      const userSec = document.getElementById('userSection');
-      const timelineSec = document.getElementById('timelineSection');
-      const btnUser = document.getElementById('btnUser');
-      const btnTimeline = document.getElementById('btnTimeline');
-
-      if (mode === 'user') {
-        userSec.classList.remove('hidden');
-        timelineSec.classList.add('hidden');
-        btnUser.className = "px-4 py-2 rounded-lg text-xs font-bold transition bg-amber-400 text-purple-950 shadow-md";
-        btnTimeline.className = "px-4 py-2 rounded-lg text-xs font-bold transition text-purple-200 hover:text-amber-300";
-      } else {
-        userSec.classList.add('hidden');
-        timelineSec.classList.remove('hidden');
-        btnTimeline.className = "px-4 py-2 rounded-lg text-xs font-bold transition bg-amber-400 text-purple-950 shadow-md";
-        btnUser.className = "px-4 py-2 rounded-lg text-xs font-bold transition text-purple-200 hover:text-amber-300";
-      }
-    }
-
     // เมื่อส่งฟอร์มแจ้งปัญหา
     function handleFormSubmit(e) {
       e.preventDefault();
       
-      const issue = document.getElementById('issueType').value;
+      const name = document.getElementById('reporterName').value;
       const location = document.getElementById('location').value;
-      const detail = document.getElementById('issueDetail').value || "ไม่มีรายละเอียดเพิ่มเติม";
 
-      // อัปเดตข้อมูลลงในหน้า Timeline
-      document.getElementById('cardTitle').innerText = "ปัญหา " + issue;
-      document.getElementById('cardLocation').innerText = "📍 " + location;
-      document.getElementById('chatMsg1').innerText = '"' + detail + '"';
-
-      alert('ส่งข้อมูลแจ้งปัญหาเรียบร้อยแล้ว! ระบบกำลังพาคุณไปดูหน้าสถานะ');
+      alert(`ขอบคุณครับคุณ ${name}!\nระบบได้รับข้อมูลการแจ้งปัญหาที่ "${location}" เรียบร้อยแล้ว ทีมงาน IT จะรีบดำเนินการตรวจสอบครับ`);
       
-      // ล้างฟอร์มแล้วสลับไปหน้า Timeline
+      const currentReporter = document.getElementById('reporterName').value;
       document.getElementById('reportForm').reset();
-      switchMode('timeline');
+      if (currentUser) {
+        document.getElementById('reporterName').value = currentReporter;
+      }
     }
   </script>
 
