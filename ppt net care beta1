@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Font: Sarabun & Kanit -->
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Google Identity Services SDK (ระบบล็อกอิน Google ของจริง) -->
+  <!-- Google Identity Services SDK -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     body { font-family: 'Sarabun', sans-serif; }
@@ -18,25 +18,14 @@
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
   <!-- ========================================================================= -->
-  <!-- STEP 1: หน้าแรกสุด (มีเฉพาะตราโรงเรียน + ปุ่มรูปภาพเดี่ยวๆ)                 -->
+  <!-- STEP 1: หน้าแรกสุด (ไม่มีตราโรงเรียน + ปุ่มรูปภาพเดี่ยวๆ)                  -->
   <!-- ========================================================================= -->
   <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-8 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative">
       
-      <!-- ตราโรงเรียนพรตพิทยพยัต -->
-      <div class="flex justify-center">
-        <div class="relative group">
-          <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-purple-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Protpittayapayat_School_Logo.png" 
-               onerror="this.onerror=null; this.src='https://via.placeholder.com/150/7e22ce/ffffff?text=PPT';"
-               alt="ตราโรงเรียนพรตพิทยพยัต" 
-               class="relative w-36 h-auto drop-shadow-2xl mx-auto py-2">
-        </div>
-      </div>
-
       <!-- ชื่อระบบ -->
-      <div class="space-y-2">
-        <h1 class="text-3xl md:text-4xl font-bold text-amber-300 drop-shadow-md">PPT Net Care</h1>
+      <div class="space-y-2 pt-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-amber-300 drop-shadow-md font-heading">PPT Net Care</h1>
         <p class="text-base text-purple-100 font-medium">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต</p>
         <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
       </div>
@@ -51,8 +40,8 @@
       </div>
 
       <!-- ลิงก์เข้าหน้า Admin -->
-      <div class="pt-2">
-        <button onclick="openAdminLogin()" class="text-xs text-amber-300/60 hover:text-amber-300 underline">
+      <div class="pt-2 pb-2">
+        <button onclick="openAdminLogin()" class="text-xs text-amber-300/60 hover:text-amber-300 underline transition">
           🔑 ผู้ดูแลระบบ (IT Admin)
         </button>
       </div>
@@ -62,7 +51,7 @@
 
 
   <!-- ========================================================================= -->
-  <!-- STEP 2: หน้าล็อกอิน GMAIL (มีเฉพาะโลโก้ Google และปุ่มล็อกอิน)           -->
+  <!-- STEP 2: หน้าล็อกอิน GMAIL                                                  -->
   <!-- ========================================================================= -->
   <div id="step2Page" class="hidden fixed inset-0 z-40 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
     <div class="text-center space-y-6 max-w-md w-full bg-white p-8 rounded-3xl shadow-2xl border-4 border-amber-400">
@@ -126,7 +115,7 @@
             <span class="text-purple-900 font-bold text-lg font-heading">พ.ย.</span>
           </div>
           <div>
-            <h1 class="text-xl md:text-2xl font-bold text-amber-300 leading-tight">PPT Net Care</h1>
+            <h1 class="text-xl md:text-2xl font-bold text-amber-300 leading-tight font-heading">PPT Net Care</h1>
             <p class="text-xs text-purple-200">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต</p>
           </div>
         </div>
@@ -150,7 +139,7 @@
     <main class="max-w-5xl w-full mx-auto p-4 my-6 flex-grow">
       <section class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
         <div class="border-b border-slate-200 pb-4 mb-6">
-          <h2 class="text-xl font-bold text-purple-900 flex items-center gap-2">
+          <h2 class="text-xl font-bold text-purple-900 flex items-center gap-2 font-heading">
             <span class="bg-amber-400 text-purple-900 p-2 rounded-xl text-lg">📝</span>
             แบบฟอร์มแจ้งปัญหาเครือข่ายและอินเทอร์เน็ต
           </h2>
@@ -194,7 +183,7 @@
             <textarea id="issueDetail" rows="3" placeholder="ระบุรายละเอียดเพิ่มเติม..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition"></textarea>
           </div>
 
-          <button type="submit" class="w-full bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 border border-amber-400/40 text-lg">
+          <button type="submit" class="w-full bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 border border-amber-400/40 text-lg font-heading">
             ส่งข้อมูลแจ้งปัญหา
           </button>
         </form>
@@ -215,7 +204,7 @@
       <div class="flex items-center gap-3">
         <span class="bg-amber-400 text-purple-950 font-bold px-3 py-1 rounded-xl text-sm font-heading">IT ADMIN</span>
         <div>
-          <h1 class="text-lg font-bold text-amber-300">ระบบจัดการผู้ดูแลระบบ (PPT Net Care Dashboard)</h1>
+          <h1 class="text-lg font-bold text-amber-300 font-heading">ระบบจัดการผู้ดูแลระบบ (PPT Net Care Dashboard)</h1>
           <p class="text-xs text-purple-200">ตรวจสอบและอัปเดตสถานะการแจ้งปัญหาอินเทอร์เน็ต</p>
         </div>
       </div>
@@ -242,7 +231,7 @@
 
       <div class="bg-slate-800 rounded-3xl border border-purple-500/20 shadow-2xl overflow-hidden">
         <div class="p-4 border-b border-slate-700 flex justify-between items-center">
-          <h2 class="text-lg font-bold text-amber-300 flex items-center gap-2">📊 รายการแจ้งปัญหาจากผู้ใช้งาน</h2>
+          <h2 class="text-lg font-bold text-amber-300 flex items-center gap-2 font-heading">📊 รายการแจ้งปัญหาจากผู้ใช้งาน</h2>
           <button onclick="clearAllReports()" class="text-xs bg-red-900/40 text-red-300 hover:bg-red-800/60 px-3 py-1.5 rounded-lg transition border border-red-500/30">ล้างข้อมูลทั้งหมด</button>
         </div>
         <div class="overflow-x-auto">
@@ -368,10 +357,10 @@
       if (currentUser) document.getElementById('reporterName').value = currentUser.name;
     }
 
-    // Admin Dashboard Logic
+    // Admin Dashboard Logic (รหัสผ่านปรับเป็น protpptnetcare01)
     function openAdminLogin() {
-      const pass = prompt("กรุณากรอกรหัสผ่านผู้ดูแลระบบ:", "1234");
-      if (pass === "1234") {
+      const pass = prompt("กรุณากรอกรหัสผ่านผู้ดูแลระบบ:");
+      if (pass === "protpptnetcare01") {
         document.getElementById('step1Page').classList.add('hidden');
         document.getElementById('step2Page').classList.add('hidden');
         document.getElementById('mainWebsite').classList.add('hidden');
