@@ -17,26 +17,34 @@
 </head>
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
-  <!-- STEP 1: หน้าแรกสุด (ใช้รูปภาพโลโก้เป็นปุ่มเข้าสู่เว็บไซต์) -->
+  <!-- STEP 1: หน้าแรกสุด -->
   <div id="step1Page" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
-    <div class="text-center space-y-8 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative">
+    <div class="text-center space-y-6 max-w-md w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative flex flex-col items-center">
       
-      <div class="space-y-2 pt-4">
+      <!-- โลโก้หลักทรงกลม -->
+      <div class="relative">
+        <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-purple-400 rounded-full blur opacity-50"></div>
+        <img src="48cf0922de551a86d785a0c933e62db7~tplv-tiktokx-cropcenter_1080_1080.jpeg" 
+             alt="PPT Net Care Logo" 
+             class="relative w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-amber-400 shadow-2xl">
+      </div>
+
+      <div class="space-y-1 pt-1">
         <h1 class="text-3xl md:text-4xl font-bold text-amber-300 drop-shadow-md font-heading">PPT Net Care</h1>
         <p class="text-base text-purple-100 font-medium">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต</p>
         <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
       </div>
 
-      <!-- ปุ่มรูปภาพโลโก้ สำหรับกดเข้าสู่เว็บไซต์ -->
-      <div class="pt-2 flex justify-center">
+      <!-- ปุ่มรูปภาพเข้าสู่เว็บไซต์ -->
+      <div class="w-full pt-2 flex justify-center">
         <button onclick="goToLoginPage()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
-          <img src="48cf0922de551a86d785a0c933e62db7~tplv-tiktokx-cropcenter_1080_1080.jpeg" 
+          <img src="10105750_1_20260205-172819.png" 
                alt="เข้าสู่เว็บไซต์ Enter website" 
-               class="w-44 h-44 md:w-52 md:h-52 rounded-full object-cover border-4 border-amber-400 shadow-2xl group-hover:brightness-110 group-hover:border-amber-300 transition mx-auto">
+               class="max-w-full h-auto max-h-24 object-contain filter drop-shadow-xl group-hover:brightness-110 transition">
         </button>
       </div>
 
-      <div class="pt-2 pb-2">
+      <div class="pt-2">
         <button onclick="openAdminLogin()" class="text-xs text-amber-300/60 hover:text-amber-300 underline transition">
           🔑 ผู้ดูแลระบบ (IT Admin)
         </button>
@@ -66,7 +74,6 @@
 
       <!-- ปุ่ม Google Login จริง -->
       <div class="flex justify-center my-4 min-h-[44px]">
-        <!-- ⚠️ เปลี่ยน Client ID ของคุณได้ที่นี่ ⚠️ -->
         <div id="g_id_onload"
              data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
              data-callback="handleCredentialResponse"
