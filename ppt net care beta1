@@ -3,148 +3,320 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบตรวจสอบสถานะ - PTT Net Care พรตพิทยพยัต</title>
+  <title>ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต (PPT Net Care)</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Font: Sarabun -->
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Font: Sarabun & Kanit -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Sarabun', sans-serif; }
-    /* สไตล์สำหรับปรับปรุงหน้าตาเฉพาะจุด */
+    h1, h2, h3, .font-heading { font-family: 'Kanit', sans-serif; }
+
+    /* Timeline Connector */
     .timeline-line {
-      width: 2px;
-      background-color: #333;
+      width: 3px;
+      background-color: #d1d5db;
       position: absolute;
-      top: 2.5rem; /* ปรับระดับเส้นเชื่อมตามไอคอน */
+      top: 2.5rem;
       bottom: -0.5rem;
-      left: calc(2rem + 1px); /* ให้เส้นอยู่กึ่งกลางไอคอน 4rem */
+      left: calc(2rem - 1.5px);
       z-index: 0;
     }
-    .timeline-item:last-child .timeline-line {
-      display: none; /* ซ่อนเส้นเชื่อมในรายการสุดท้าย */
-    }
+    .timeline-item:last-child .timeline-line { display: none; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-purple-100 via-white to-purple-100 min-h-screen flex flex-col justify-between text-slate-800">
+<body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
-  <!-- ==================== Header & แถบค้นหา (เหมือนต้นฉบับ) ==================== -->
-  <header class="p-6">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="flex items-center gap-4">
-        <!-- โลโก้โรงเรียน (จำลอง) -->
-        <div class="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
-          <span class="text-4xl">🏫</span> 
-        </div>
-        <div>
-          <h1 class="text-3xl font-bold text-slate-950">ปัญหาของคุณได้รับการแก้ไขแล้วผ่าน PTT Net Care</h1>
-          <p class="text-slate-600">ตรวจสอบสถานะการแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต</p>
-        </div>
-      </div>
+  <!-- ========================================================================= -->
+  <!-- 1. LANDING PAGE / INTRO SCREEN (หน้ากดเข้าสู่เว็บไซต์)                    -->
+  <!-- ========================================================================= -->
+  <div id="landingScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
+    <div class="text-center space-y-6 max-w-lg w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl">
       
-      <!-- แถบค้นหาและไอคอนสถานะ Wi-Fi -->
-      <div class="flex items-center gap-4 w-full md:w-auto">
-        <div class="relative w-full md:w-80">
-          <input type="text" placeholder="ค้นหาเนื้อหาที่เกี่ยวข้อง" class="w-full pl-12 pr-4 py-3 rounded-full bg-white border border-slate-200 shadow-inner focus:ring-2 focus:ring-purple-400 outline-none">
-          <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
-        </div>
-        <!-- ไอคอน Wi-Fi (จำลอง) -->
-        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-slate-100 text-3xl">
-          📡
+      <!-- ตราโรงเรียนพรตพิทยพยัต -->
+      <div class="flex justify-center">
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-purple-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Protpittayapayat_School_Logo.png" 
+               onerror="this.onerror=null; this.src='https://via.placeholder.com/150/7e22ce/ffffff?text=PPT';"
+               alt="ตราโรงเรียนพรตพิทยพยัต" 
+               class="relative w-36 h-auto drop-shadow-2xl mx-auto py-2">
         </div>
       </div>
+
+      <!-- ชื่อระบบ -->
+      <div class="space-y-2">
+        <h1 class="text-3xl md:text-4xl font-bold text-amber-300 drop-shadow-md">PPT Net Care</h1>
+        <p class="text-lg text-purple-100 font-medium">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต</p>
+        <p class="text-xs text-amber-200/80">โรงเรียนพรตพิทยพยัต Protpittayapayat School</p>
+      </div>
+
+      <!-- ปุ่มเข้าสู่เว็บไซต์ (สไตล์เหลือง-ม่วง ตามตัวอย่าง) -->
+      <div class="pt-4 flex justify-center">
+        <button onclick="enterWebsite()" class="group relative inline-flex items-center justify-center overflow-hidden rounded-2xl p-0.5 font-medium shadow-2xl transition duration-300 hover:scale-105 active:scale-95">
+          <span class="absolute inset-0 bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500"></span>
+          <div class="relative flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-900 px-8 py-3.5 rounded-[14px] transition duration-300">
+            <!-- โลโก้ขนาดเล็กติดบนปุ่ม -->
+            <div class="w-10 h-10 bg-purple-700 rounded-full p-1 flex items-center justify-center shadow-md">
+              <span class="text-amber-300 font-bold text-xs">พ.ย.</span>
+            </div>
+            <div class="text-left">
+              <div class="text-xl font-bold text-purple-900 leading-tight">เข้าสู่เว็บไซต์</div>
+              <div class="text-xs font-semibold text-amber-600 uppercase tracking-wider">Enter website</div>
+            </div>
+            <span class="text-purple-700 text-xl font-bold group-hover:translate-x-1 transition">➔</span>
+          </div>
+        </button>
+      </div>
+
     </div>
-  </header>
+  </div>
 
-  <!-- ==================== Main Content: หน้าไทม์ไลน์ (เป้าหมายหลัก) ==================== -->
-  <main class="flex-grow p-6">
-    <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl p-8 border border-slate-100 flex flex-col md:flex-row gap-8 relative">
-      
-      <!-- ส่วนซ้าย: ข้อมูลหลักและไทม์ไลน์ -->
-      <div class="flex-grow space-y-8 relative">
+
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN WEBSITE (หน้าเว็บหลัก ธีมม่วง-เหลือง)                              -->
+  <!-- ========================================================================= -->
+  <div id="mainWebsite" class="hidden min-h-screen bg-slate-100 flex flex-col justify-between">
+    
+    <!-- Header Bar -->
+    <header class="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-950 text-white shadow-xl border-b-4 border-amber-400">
+      <div class="max-w-6xl mx-auto p-4 flex flex-col md:flex-row justify-between items-center gap-4">
         
-        <!-- ข้อมูลปัญหาและผู้แก้ไข -->
-        <div class="space-y-4">
-          <div class="flex items-center gap-3">
-            <span class="bg-black text-white text-xs font-mono font-bold px-3 py-1.5 rounded-full">Wi-Fi</span>
-            <h2 class="text-2xl font-bold text-black">ปัญหา อินเทอร์เน็ตช้า</h2>
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-amber-400 rounded-full p-1 flex items-center justify-center shadow-md border-2 border-white">
+            <span class="text-purple-900 font-bold text-lg font-heading">พ.ย.</span>
           </div>
-          <p class="text-lg font-semibold text-slate-800">แก้ไขโดย <span class="font-bold">ทีมงาน IT ครูรัชพล ไชยวงค์</span></p>
-          <div class="flex items-center gap-2 text-red-600">
-            <span class="text-xl">📍</span>
-            <span>ตึก 6 ชั้น 4 อาคาร 60 ปี พรตพิทยพยัต</span>
+          <div>
+            <h1 class="text-xl md:text-2xl font-bold text-amber-300 leading-tight">PPT Net Care</h1>
+            <p class="text-xs text-purple-200">ศูนย์รับเรื่องแจ้งปัญหาอินเทอร์เน็ต - โรงเรียนพรตพิทยพยัต</p>
           </div>
         </div>
 
-        <!-- รายการไทม์ไลน์ (Timeline Items) -->
-        <div class="space-y-3 relative">
+        <!-- Navigation Tabs -->
+        <div class="flex bg-purple-950/80 p-1.5 rounded-xl border border-amber-400/30">
+          <button id="btnUser" onclick="switchMode('user')" class="px-4 py-2 rounded-lg text-xs font-bold transition bg-amber-400 text-purple-950 shadow-md">
+            📝 แจ้งปัญหา
+          </button>
+          <button id="btnTimeline" onclick="switchMode('timeline')" class="px-4 py-2 rounded-lg text-xs font-bold transition text-purple-200 hover:text-amber-300">
+            📊 ตรวจสอบสถานะ (Timeline)
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Content Wrapper -->
+    <main class="max-w-5xl w-full mx-auto p-4 my-6 flex-grow">
+
+      <!-- ================= PAGE 1: Form แจ้งปัญหา ================= -->
+      <section id="userSection" class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
+        <div class="border-b border-slate-200 pb-4 mb-6">
+          <h2 class="text-xl font-bold text-purple-900 flex items-center gap-2">
+            <span class="bg-amber-400 text-purple-900 p-2 rounded-xl text-lg">📝</span>
+            แบบฟอร์มแจ้งปัญหาเครือข่ายและอินเทอร์เน็ต
+          </h2>
+          <p class="text-xs text-slate-500 mt-1">กรอกข้อมูลให้ครบถ้วนเพื่อให้ทีมงาน IT เข้าดำเนินการแก้ไขได้รวดเร็ว</p>
+        </div>
+
+        <form id="reportForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">ชื่อ-นามสกุล ผู้แจ้ง <span class="text-red-500">*</span></label>
+            <input type="text" id="reporterName" required placeholder="เช่น นายสมชาย ใจดี" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">สถานะผู้ใช้งาน <span class="text-red-500">*</span></label>
+              <select id="reporterRole" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+                <option>นักเรียน</option>
+                <option>ครู / บุคลากร</option>
+                <option>เจ้าหน้าที่ / อื่นๆ</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">สถานที่พบปัญหา <span class="text-red-500">*</span></label>
+              <input type="text" id="location" required placeholder="เช่น ตึก 6 ชั้น 4 อาคาร 60 ปี" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">ประเภทปัญหา <span class="text-red-500">*</span></label>
+            <select id="issueType" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition">
+              <option>อินเทอร์เน็ตช้า / สัญญาณไม่เสถียร</option>
+              <option>เชื่อมต่อ Wi-Fi ไม่ได้</option>
+              <option>สาย LAN ชำรุด / ไม่มีสัญญาณ LAN</option>
+              <option>เข้าเว็บบางเว็บไซต์ไม่ได้</option>
+              <option>อื่นๆ</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">รายละเอียดปัญหาเพิ่มเติม</label>
+            <textarea id="issueDetail" rows="3" placeholder="ระบุข้อความแชท หรือรายละเอียดเพิ่มเติม..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-600 focus:border-purple-600 outline-none transition"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-800 hover:to-purple-950 text-amber-300 font-bold py-3 rounded-2xl shadow-lg transition duration-200 border border-amber-400/40 text-lg">
+            ส่งข้อมูลแจ้งปัญหา
+          </button>
+        </form>
+      </section>
+
+
+      <!-- ================= PAGE 2: Timeline การแก้ไข ================= -->
+      <section id="timelineSection" class="hidden bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-8">
+        
+        <!-- Header การ์ด -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-6 mb-6">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="bg-purple-900 text-amber-300 text-xs font-bold px-3 py-1 rounded-full">Wi-Fi</span>
+              <h2 id="cardTitle" class="text-2xl font-bold text-slate-900">ปัญหา อินเทอร์เน็ตช้า</h2>
+            </div>
+            <p id="cardStaff" class="text-slate-700 font-semibold text-sm">แก้ไขโดย: <span class="text-purple-800">ทีมงาน IT ครูรัชพล ไชยวงค์</span></p>
+            <p id="cardLocation" class="text-red-600 font-medium text-xs flex items-center gap-1">📍 ตึก 6 ชั้น 4 อาคาร 60 ปี พรตพิทยพยัต</p>
+          </div>
+
+          <span class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-bold px-4 py-2 rounded-full shadow-sm">
+            ✓ แก้ไขเสร็จสิ้นแล้ว
+          </span>
+        </div>
+
+        <!-- Body: แบ่งซ้าย (ไทม์ไลน์) / ขวา (รูปภาพแชท) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          <!-- เส้นเชื่อมไทม์ไลน์ -->
-          <div class="timeline-line"></div>
+          <!-- ซ้าย: ไทม์ไลน์ 3 ขั้นตอน -->
+          <div class="md:col-span-2 space-y-4 relative">
+            <div class="timeline-line"></div>
 
-          <!-- 1. แจ้ง (สีแดง/ชมพู) -->
-          <div class="timeline-item flex items-center gap-6 p-4 rounded-xl relative z-10 bg-red-100/70 border border-red-200 shadow-sm">
-            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl border border-slate-100 shadow">🧑‍💻</div>
-            <div class="flex-grow">
-              <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">แจ้ง</span>
-              <p class="text-sm mt-1 text-slate-600">8 พฤษภาคม 2569 22:14</p>
+            <!-- Step 1: แจ้ง -->
+            <div class="timeline-item flex items-center gap-4 p-4 rounded-2xl bg-red-50 border border-red-200 relative z-10 shadow-sm">
+              <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center font-bold text-xl shadow">📣</div>
+              <div class="flex-grow">
+                <span class="bg-red-500 text-white text-xs font-bold px-3 py-0.5 rounded-full">แจ้งเรื่อง</span>
+                <p id="timeStep1" class="text-xs text-slate-600 mt-1">8 พฤษภาคม 2569 22:14</p>
+              </div>
+            </div>
+
+            <!-- Step 2: รับเรื่อง -->
+            <div class="timeline-item flex items-center gap-4 p-4 rounded-2xl bg-amber-50 border border-amber-200 relative z-10 shadow-sm">
+              <div class="w-12 h-12 rounded-full bg-amber-400 text-purple-950 flex items-center justify-center font-bold text-xl shadow">⚙️</div>
+              <div class="flex-grow">
+                <span class="bg-amber-400 text-purple-950 text-xs font-bold px-3 py-0.5 rounded-full">รับเรื่องดำเนินการ</span>
+                <p id="timeStep2" class="text-xs text-slate-600 mt-1">8 พฤษภาคม 2569 22:16</p>
+              </div>
+            </div>
+
+            <!-- Step 3: เสร็จสิ้น -->
+            <div class="timeline-item flex items-center gap-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 relative z-10 shadow-sm">
+              <div class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xl shadow">✓</div>
+              <div class="flex-grow">
+                <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-0.5 rounded-full">เสร็จสิ้น</span>
+                <p id="timeStep3" class="text-xs text-slate-600 mt-1">9 พฤษภาคม 2569 13:44</p>
+              </div>
+            </div>
+
+            <!-- กล่องสรุปเวลา -->
+            <div class="pt-2">
+              <div class="bg-purple-900 text-amber-300 rounded-2xl p-4 border-2 border-amber-400 shadow-md inline-block w-full">
+                <span class="bg-amber-400 text-purple-950 text-xs font-bold px-3 py-1 rounded-full inline-block mb-1">ใช้เวลาแก้ไขรวม</span>
+                <p class="text-2xl md:text-3xl font-bold font-heading">15 ชั่วโมง 28 นาที</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ขวา: กล่องแชทและภาพถ่าย -->
+          <div class="space-y-4">
+            <!-- กล่องแชทจำลอง -->
+            <div class="bg-slate-900 text-white rounded-2xl p-4 space-y-2 border border-purple-900 shadow-md">
+              <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">ข้อความแจ้งปัญหา</span>
+              <div class="bg-slate-800 p-3 rounded-xl text-xs space-y-1 mt-2">
+                <p id="chatMsg1">"เน็ตตึก 6 ไม่แรงเลยครับ"</p>
+                <p id="chatMsg2" class="text-amber-300 font-medium">"ชั้น 4 ครับ"</p>
+              </div>
+            </div>
+
+            <!-- กล่องภาพหลักฐาน -->
+            <div class="bg-purple-50 rounded-2xl p-3 border border-purple-200 text-center shadow-inner">
+              <span class="bg-emerald-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-block mb-2">ภาพหลักฐานหลังแก้ไข</span>
+              <div class="w-full h-40 bg-purple-900/10 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-purple-300">
+                <span class="text-4xl">💻</span>
+                <span class="text-xs text-purple-800 font-semibold mt-1">ทดสอบ Speedtest เรียบร้อย</span>
+              </div>
             </div>
           </div>
 
-          <!-- 2. รับเรื่อง (สีเหลือง) -->
-          <div class="timeline-item flex items-center gap-6 p-4 rounded-xl relative z-10 bg-yellow-100 border border-yellow-200 shadow-sm">
-            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl border border-slate-100 shadow">⚙️</div>
-            <div class="flex-grow">
-              <span class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 rounded-full">รับเรื่อง</span>
-              <p class="text-sm mt-1 text-slate-600">8 พฤษภาคม 2569 22:16</p>
-            </div>
-          </div>
-
-          <!-- 3. เสร็จสิ้น (สีเขียว) -->
-          <div class="timeline-item flex items-center gap-6 p-4 rounded-xl relative z-10 bg-green-100 border border-green-200 shadow-sm">
-            <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center text-4xl border border-slate-100 shadow">✔️</div>
-            <div class="flex-grow">
-              <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">เสร็จสิ้น</span>
-              <p class="text-sm mt-1 text-slate-600">9 พฤษภาคม 2569 13:44</p>
-            </div>
-          </div>
         </div>
 
-        <!-- กล่องสรุปเวลา (สีม่วง) -->
-        <div class="bg-purple-300 rounded-xl p-4 border-2 border-black inline-block shadow-lg">
-          <p class="text-sm font-bold text-black border-2 border-black bg-white px-3 py-1 rounded-full inline-block mb-2">ใช้เวลาแก้ไข</p>
-          <p class="text-4xl font-black text-black">15 ชั่วโมง 28 นาที</p>
-        </div>
-      </div>
+      </section>
 
-      <!-- ส่วนขวา: แชทและรูปภาพหลักฐาน -->
-      <div class="w-full md:w-80 flex flex-col gap-6">
-        
-        <!-- แชทจำลอง (สีดำ) -->
-        <div class="bg-slate-900 text-white rounded-2xl p-6 space-y-4 shadow-xl border border-slate-700 relative">
-          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">แจ้ง</span>
-          <div class="text-xs text-slate-400 text-right">22:14</div>
-          <p class="bg-slate-800 p-3 rounded-lg text-sm inline-block">เน็ตตึก6ไม่แรงเลยครับ</p>
-          <div class="clear-both"></div>
-          <p class="bg-slate-800 p-3 rounded-lg text-sm inline-block">ชั้น4ครับ</p>
-        </div>
+    </main>
 
-        <!-- รูปภาพหลักฐาน (จำลอง) -->
-        <div class="bg-slate-100 rounded-2xl p-4 border border-slate-200 shadow-inner relative">
-          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">เสร็จสิ้น</span>
-          <!-- รูปหน้าจอ (จำลอง) -->
-          <div class="w-full h-48 bg-slate-800 rounded-lg flex flex-col items-center justify-center border-4 border-white shadow">
-            <span class="text-5xl">💻</span>
-            <span class="text-slate-400 text-xs mt-2">ภาพถ่ายการแก้ไข</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+    <!-- Footer -->
+    <footer class="bg-purple-950 text-purple-300 text-center py-4 text-xs border-t border-amber-400/20">
+      © 2026 PPT Net Care - โรงเรียนพรตพิทยพยัต Protpittayapayat School.
+    </footer>
 
-  <!-- ==================== Footer (เหมือนต้นฉบับ) ==================== -->
-  <footer class="bg-slate-900 text-slate-500 text-center py-5 text-sm">
-    © 2026 PPT Net Care - Protpittayapayat School. โรงเรียนพรตพิทยพยัต. Hosted on GitHub Pages.
-  </footer>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- 3. JAVASCRIPT LOGIC                                                      -->
+  <!-- ========================================================================= -->
+  <script>
+    // กดปุ่มเข้าสู่เว็บไซต์
+    function enterWebsite() {
+      const landing = document.getElementById('landingScreen');
+      const main = document.getElementById('mainWebsite');
+
+      landing.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        landing.classList.add('hidden');
+        main.classList.remove('hidden');
+      }, 500);
+    }
+
+    // สลับหน้าระหว่าง Form แจ้งปัญหา กับ Timeline
+    function switchMode(mode) {
+      const userSec = document.getElementById('userSection');
+      const timelineSec = document.getElementById('timelineSection');
+      const btnUser = document.getElementById('btnUser');
+      const btnTimeline = document.getElementById('btnTimeline');
+
+      if (mode === 'user') {
+        userSec.classList.remove('hidden');
+        timelineSec.classList.add('hidden');
+        btnUser.className = "px-4 py-2 rounded-lg text-xs font-bold transition bg-amber-400 text-purple-950 shadow-md";
+        btnTimeline.className = "px-4 py-2 rounded-lg text-xs font-bold transition text-purple-200 hover:text-amber-300";
+      } else {
+        userSec.classList.add('hidden');
+        timelineSec.classList.remove('hidden');
+        btnTimeline.className = "px-4 py-2 rounded-lg text-xs font-bold transition bg-amber-400 text-purple-950 shadow-md";
+        btnUser.className = "px-4 py-2 rounded-lg text-xs font-bold transition text-purple-200 hover:text-amber-300";
+      }
+    }
+
+    // เมื่อส่งฟอร์มแจ้งปัญหา
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      
+      const issue = document.getElementById('issueType').value;
+      const location = document.getElementById('location').value;
+      const detail = document.getElementById('issueDetail').value || "ไม่มีรายละเอียดเพิ่มเติม";
+
+      // อัปเดตข้อมูลลงในหน้า Timeline
+      document.getElementById('cardTitle').innerText = "ปัญหา " + issue;
+      document.getElementById('cardLocation').innerText = "📍 " + location;
+      document.getElementById('chatMsg1').innerText = '"' + detail + '"';
+
+      alert('ส่งข้อมูลแจ้งปัญหาเรียบร้อยแล้ว! ระบบกำลังพาคุณไปดูหน้าสถานะ');
+      
+      // ล้างฟอร์มแล้วสลับไปหน้า Timeline
+      document.getElementById('reportForm').reset();
+      switchMode('timeline');
+    }
+  </script>
 
 </body>
 </html>
