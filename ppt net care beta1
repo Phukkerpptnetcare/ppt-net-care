@@ -16,10 +16,10 @@
 <body class="bg-slate-900 min-h-screen text-slate-800 flex flex-col justify-between">
 
   <!-- ========================================================================= -->
-  <!-- 1. LANDING PAGE / INTRO SCREEN (หน้าต้อนรับ + ปุ่มรูปภาพ + Google Login)   -->
+  <!-- 1. LANDING PAGE / INTRO SCREEN (หน้าต้อนรับ + ปุ่มรูปภาพ + ปุ่ม Admin)       -->
   <!-- ========================================================================= -->
   <div id="landingScreen" class="fixed inset-0 z-50 bg-gradient-to-br from-purple-950 via-purple-900 to-amber-950 flex flex-col items-center justify-center p-4 transition-all duration-500">
-    <div class="text-center space-y-6 max-w-xl w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl">
+    <div class="text-center space-y-6 max-w-xl w-full bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-amber-400/30 shadow-2xl relative">
       
       <!-- ตราโรงเรียนพรตพิทยพยัต -->
       <div class="flex justify-center">
@@ -55,7 +55,7 @@
 
         <div class="text-xs text-purple-200/60 font-light">- หรือกดปุ่มด้านล่างเพื่อเข้าใช้งาน -</div>
 
-        <!-- ปุ่มกดเข้าสู่เว็บไซต์ (ดึงรูปภาพตรงกับชื่อไฟล์ที่คุณอัปโหลด) -->
+        <!-- ปุ่มกดเข้าสู่เว็บไซต์ (รูปภาพของคุณ) -->
         <button onclick="enterWebsite()" class="cursor-pointer transition duration-300 hover:scale-105 active:scale-95 focus:outline-none group">
           <img src="10105750_1_20260205-172819.png" 
                alt="เข้าสู่เว็บไซต์ Enter website" 
@@ -64,12 +64,19 @@
 
       </div>
 
+      <!-- ปุ่มเข้าสู่ระบบผู้ดูแลระบบ (Admin Login Link) -->
+      <div class="pt-4 border-t border-purple-500/30">
+        <button onclick="openAdminLogin()" class="text-xs text-amber-300/80 hover:text-amber-300 underline flex items-center justify-center gap-1 mx-auto transition">
+          🔑 เข้าสู่ระบบสำหรับผู้ดูแลระบบ (IT Admin)
+        </button>
+      </div>
+
     </div>
   </div>
 
 
   <!-- ========================================================================= -->
-  <!-- 2. MAIN WEBSITE (หน้าแบบฟอร์มแจ้งปัญหา + แสดงโปรไฟล์ Google)               -->
+  <!-- 2. MAIN WEBSITE (หน้าแบบฟอร์มแจ้งปัญหาสำหรับผู้ใช้ทั่วไป)                    -->
   <!-- ========================================================================= -->
   <div id="mainWebsite" class="hidden min-h-screen bg-slate-100 flex flex-col justify-between">
     
@@ -170,12 +177,105 @@
 
 
   <!-- ========================================================================= -->
-  <!-- 3. JAVASCRIPT LOGIC                                                      -->
+  <!-- 3. ADMIN DASHBOARD (หน้าผู้ดูแลระบบ - สำหรับดูรายการที่มีคนแจ้งเข้ามา)        -->
+  <!-- ========================================================================= -->
+  <div id="adminPanel" class="hidden min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between">
+    
+    <!-- Admin Header Bar -->
+    <header class="bg-purple-950 text-white p-4 shadow-xl border-b border-amber-400/30 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <span class="bg-amber-400 text-purple-950 font-bold px-3 py-1 rounded-xl text-sm font-heading">IT ADMIN</span>
+        <div>
+          <h1 class="text-lg font-bold text-amber-300">ระบบจัดการผู้ดูแลระบบ (PPT Net Care Dashboard)</h1>
+          <p class="text-xs text-purple-200">ตรวจสอบและอัปเดตสถานะการแจ้งปัญหาอินเทอร์เน็ต</p>
+        </div>
+      </div>
+      <button onclick="exitAdmin()" class="bg-red-600/80 hover:bg-red-600 text-white text-xs px-4 py-2 rounded-xl transition">
+        ออกจากระบบ Admin
+      </button>
+    </header>
+
+    <!-- Admin Content -->
+    <main class="max-w-6xl w-full mx-auto p-4 md:p-6 flex-grow">
+      
+      <!-- สรุปสถิติเบื้องต้น -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-slate-800 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
+          <p class="text-xs text-slate-400">รายการแจ้งปัญหาทั้งหมด</p>
+          <p id="statTotal" class="text-3xl font-bold text-amber-300 mt-1">0</p>
+        </div>
+        <div class="bg-slate-800 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
+          <p class="text-xs text-slate-400">อยู่ระหว่างดำเนินการ</p>
+          <p id="statPending" class="text-3xl font-bold text-amber-400 mt-1">0</p>
+        </div>
+        <div class="bg-slate-800 border border-purple-500/20 p-4 rounded-2xl shadow-lg">
+          <p class="text-xs text-slate-400">แก้ไขเสร็จสิ้นแล้ว</p>
+          <p id="statCompleted" class="text-3xl font-bold text-emerald-400 mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- ตารางแสดงรายการแจ้งปัญหา -->
+      <div class="bg-slate-800 rounded-3xl border border-purple-500/20 shadow-2xl overflow-hidden">
+        <div class="p-4 border-b border-slate-700 flex justify-between items-center">
+          <h2 class="text-lg font-bold text-amber-300 flex items-center gap-2">
+            📊 รายการแจ้งปัญหาจากผู้ใช้งาน
+          </h2>
+          <button onclick="clearAllReports()" class="text-xs bg-red-900/40 text-red-300 hover:bg-red-800/60 px-3 py-1.5 rounded-lg transition border border-red-500/30">
+            ล้างข้อมูลทั้งหมด
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs md:text-sm">
+            <thead class="bg-purple-950/60 text-amber-300 uppercase font-heading">
+              <tr>
+                <th class="p-3.5">วันที่-เวลา</th>
+                <th class="p-3.5">ผู้แจ้ง (สถานะ)</th>
+                <th class="p-3.5">สถานที่</th>
+                <th class="p-3.5">ประเภทปัญหา / รายละเอียด</th>
+                <th class="p-3.5 text-center">สถานะ</th>
+                <th class="p-3.5 text-center">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="adminReportTable" class="divide-y divide-slate-700/60">
+              <!-- ข้อมูลจะถูกโหลดมาจาก JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 text-center py-3 text-xs">
+      PPT Net Care Admin System - โรงเรียนพรตพิทยพยัต
+    </footer>
+
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- 4. JAVASCRIPT LOGIC                                                      -->
   <!-- ========================================================================= -->
   <script>
     let currentUser = null;
 
-    // จัดการการล็อกอินด้วย Google
+    // ข้อมูลเริ่มต้นจำลอง (ถ้ายังไม่มีในระบบ)
+    const defaultReports = [
+      { id: 1, name: 'นายสมชาย ใจดี', role: 'นักเรียน', location: 'ตึก 6 ชั้น 4', type: 'เชื่อมต่อ Wi-Fi ไม่ได้', detail: 'สัญญาณติดๆ ขัดๆ ช่วงคาบ 3', status: 'รอดำเนินการ', time: '05/02/2026 09:30' },
+      { id: 2, name: 'ครูสมศรี วิชาการ', role: 'ครู / บุคลากร', location: 'ห้องพักครูหมวดสังคม', type: 'อินเทอร์เน็ตช้า / สัญญาณไม่เสถียร', detail: 'โหลดไฟล์สื่อการสอนไม่ขึ้น', status: 'กำลังแก้ไข', time: '05/02/2026 10:15' }
+    ];
+
+    // โหลดข้อมูลจาก localStorage
+    function getStoredReports() {
+      const stored = localStorage.getItem('ppt_net_reports');
+      if (!stored) {
+        localStorage.setItem('ppt_net_reports', JSON.stringify(defaultReports));
+        return defaultReports;
+      }
+      return JSON.parse(stored);
+    }
+
+    // ล็อกอินด้วย Google (จำลอง)
     function handleGoogleLogin() {
       const inputEmail = prompt("กรุณากรอก Gmail ของคุณ (ตัวอย่าง: student@prot.ac.th):", "student@gmail.com");
       
@@ -188,7 +288,6 @@
           picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(mockName)}&background=7e22ce&color=facc15&bold=true`
         };
 
-        // อัปเดต UI หน้าเว็บ
         document.getElementById('userAvatar').src = currentUser.picture;
         document.getElementById('userNameDisplay').innerText = currentUser.name;
         document.getElementById('userEmailDisplay').innerText = currentUser.email;
@@ -200,7 +299,6 @@
       }
     }
 
-    // ออกจากระบบ
     function handleLogout() {
       currentUser = null;
       document.getElementById('userAvatar').src = 'https://via.placeholder.com/40';
@@ -211,7 +309,6 @@
       alert('ออกจากระบบเรียบร้อยแล้ว');
     }
 
-    // กดปุ่มเข้าสู่เว็บไซต์
     function enterWebsite() {
       const landing = document.getElementById('landingScreen');
       const main = document.getElementById('mainWebsite');
@@ -223,12 +320,30 @@
       }, 500);
     }
 
-    // เมื่อส่งฟอร์มแจ้งปัญหา
+    // ส่งฟอร์มแจ้งปัญหา
     function handleFormSubmit(e) {
       e.preventDefault();
       
       const name = document.getElementById('reporterName').value;
+      const role = document.getElementById('reporterRole').value;
       const location = document.getElementById('location').value;
+      const type = document.getElementById('issueType').value;
+      const detail = document.getElementById('issueDetail').value;
+
+      const newReport = {
+        id: Date.now(),
+        name: name,
+        role: role,
+        location: location,
+        type: type,
+        detail: detail || '-',
+        status: 'รอดำเนินการ',
+        time: new Date().toLocaleString('th-TH')
+      };
+
+      const reports = getStoredReports();
+      reports.unshift(newReport);
+      localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
 
       alert(`ขอบคุณครับคุณ ${name}!\nระบบได้รับข้อมูลการแจ้งปัญหาที่ "${location}" เรียบร้อยแล้ว ทีมงาน IT จะรีบดำเนินการตรวจสอบครับ`);
       
@@ -236,6 +351,105 @@
       document.getElementById('reportForm').reset();
       if (currentUser) {
         document.getElementById('reporterName').value = currentReporter;
+      }
+    }
+
+    // ================= ADMIN FUNCTIONS =================
+    function openAdminLogin() {
+      const pass = prompt("กรุณากรอกรหัสผ่านผู้ดูแลระบบ (IT Admin Passcode):", "1234");
+      if (pass === "1234") {
+        document.getElementById('landingScreen').classList.add('hidden');
+        document.getElementById('mainWebsite').classList.add('hidden');
+        document.getElementById('adminPanel').classList.remove('hidden');
+        renderAdminDashboard();
+      } else if (pass !== null) {
+        alert("รหัสผ่านไม่ถูกต้อง!");
+      }
+    }
+
+    function exitAdmin() {
+      document.getElementById('adminPanel').classList.add('hidden');
+      document.getElementById('landingScreen').classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+    }
+
+    function renderAdminDashboard() {
+      const reports = getStoredReports();
+      const tbody = document.getElementById('adminReportTable');
+      tbody.innerHTML = '';
+
+      let total = reports.length;
+      let pending = 0;
+      let completed = 0;
+
+      if (reports.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400">ยังไม่มีรายการแจ้งปัญหาในขณะนี้</td></tr>`;
+      } else {
+        reports.forEach(item => {
+          if (item.status === 'เสร็จสิ้น') completed++;
+          else pending++;
+
+          let statusBadge = '';
+          if (item.status === 'รอดำเนินการ') {
+            statusBadge = `<span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-1 rounded-full text-xs font-semibold">⏳ รอดำเนินการ</span>`;
+          } else if (item.status === 'กำลังแก้ไข') {
+            statusBadge = `<span class="bg-blue-500/20 text-blue-300 border border-blue-500/40 px-2.5 py-1 rounded-full text-xs font-semibold">🔧 กำลังแก้ไข</span>`;
+          } else {
+            statusBadge = `<span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-1 rounded-full text-xs font-semibold">✅ เสร็จสิ้น</span>`;
+          }
+
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-700/30 transition";
+          tr.innerHTML = `
+            <td class="p-3.5 whitespace-nowrap text-slate-400">${item.time}</td>
+            <td class="p-3.5"><div class="font-bold text-amber-200">${item.name}</div><div class="text-[11px] text-slate-400">${item.role}</div></td>
+            <td class="p-3.5 text-slate-200">${item.location}</td>
+            <td class="p-3.5"><div class="font-semibold text-purple-200">${item.type}</div><div class="text-[11px] text-slate-400">${item.detail}</div></td>
+            <td class="p-3.5 text-center">${statusBadge}</td>
+            <td class="p-3.5 text-center whitespace-nowrap">
+              <button onclick="toggleStatus(${item.id})" class="bg-purple-700/60 hover:bg-purple-600 text-white text-[11px] px-2.5 py-1 rounded-lg transition mr-1">
+                เปลี่ยนสถานะ
+              </button>
+              <button onclick="deleteReport(${item.id})" class="bg-red-900/60 hover:bg-red-800 text-red-200 text-[11px] px-2 py-1 rounded-lg transition">
+                ลบ
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      document.getElementById('statTotal').innerText = total;
+      document.getElementById('statPending').innerText = pending;
+      document.getElementById('statCompleted').innerText = completed;
+    }
+
+    function toggleStatus(id) {
+      let reports = getStoredReports();
+      reports = reports.map(item => {
+        if (item.id === id) {
+          if (item.status === 'รอดำเนินการ') item.status = 'กำลังแก้ไข';
+          else if (item.status === 'กำลังแก้ไข') item.status = 'เสร็จสิ้น';
+          else item.status = 'รอดำเนินการ';
+        }
+        return item;
+      });
+      localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
+      renderAdminDashboard();
+    }
+
+    function deleteReport(id) {
+      if (confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
+        let reports = getStoredReports();
+        reports = reports.filter(item => item.id !== id);
+        localStorage.setItem('ppt_net_reports', JSON.stringify(reports));
+        renderAdminDashboard();
+      }
+    }
+
+    function clearAllReports() {
+      if (confirm('คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลการแจ้งปัญหาทั้งหมด?')) {
+        localStorage.setItem('ppt_net_reports', JSON.stringify([]));
+        renderAdminDashboard();
       }
     }
   </script>
